@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 디스크 정리 유틸리티</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/cleanup.css">
+</head>
+<body>
+    <div class="app">
+        <!-- 헤더 -->
+        <header class="header">
+            <div class="container">
+                <div class="header-inner">
+                    <div class="logo">
+                        <span class="logo-icon">🧹</span>
+                        <h1>디스크 클리너</h1>
+                    </div>
+                    <p class="header-desc">Windows C: 드라이브 불필요 파일 정리 도구</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="main">
+            <div class="container">
+                <!-- 안내 배너 -->
+                <div class="info-banner">
+                    <div class="info-icon">ℹ️</div>
+                    <div class="info-text">
+                        <strong>안전한 정리 도구</strong>
+                        <p>이 도구는 직접 파일을 삭제하지 않습니다. 선택한 항목에 따라 <strong>PowerShell 스크립트</strong>를 생성하며, 다운로드 후 직접 검토하고 실행할 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <!-- 스캔 결과 시뮬레이션 -->
+                <div class="scan-section">
+                    <div class="scan-header">
+                        <h2>정리 가능한 항목</h2>
+                        <div class="scan-actions">
+                            <button class="btn btn-outline" id="selectAllBtn" onclick="Cleanup.toggleSelectAll()">전체 선택</button>
+                            <button class="btn btn-primary" id="analyzeBtn" onclick="Cleanup.analyze()">
+                                <span class="btn-icon">🔍</span> 용량 분석
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 카테고리별 정리 항목 -->
+                    <div class="cleanup-categories" id="cleanupCategories">
+                        <!-- JS로 렌더링 -->
+                    </div>
+                </div>
+
+                <!-- 분석 결과 -->
+                <div class="result-section hidden" id="resultSection">
+                    <div class="result-header">
+                        <h2>분석 결과</h2>
+                    </div>
+                    <div class="result-summary">
+                        <div class="result-card total">
+                            <div class="result-number" id="totalSize">0 GB</div>
+                            <div class="result-label">예상 정리 용량</div>
+                        </div>
+                        <div class="result-card items">
+                            <div class="result-number" id="totalItems">0개</div>
+                            <div class="result-label">정리 항목 수</div>
+                        </div>
+                        <div class="result-card risk">
+                            <div class="result-number" id="riskLevel">낮음</div>
+                            <div class="result-label">위험도</div>
+                        </div>
+                    </div>
+
+                    <!-- 상세 항목 -->
+                    <div class="result-details" id="resultDetails">
+                        <!-- JS로 렌더링 -->
+                    </div>
+
+                    <!-- 스크립트 생성 -->
+                    <div class="generate-section">
+                        <button class="btn btn-large btn-primary" onclick="Cleanup.generateScript()">
+                            <span class="btn-icon">⚡</span> 정리 스크립트 생성
+                        </button>
+                        <p class="generate-note">PowerShell 스크립트(.ps1)가 생성됩니다. 관리자 권한으로 실행하세요.</p>
+                    </div>
+                </div>
+
+                <!-- 스크립트 미리보기 -->
+                <div class="script-section hidden" id="scriptSection">
+                    <div class="script-header">
+                        <h2>생성된 스크립트</h2>
+                        <div class="script-actions">
+                            <button class="btn btn-outline" onclick="Cleanup.copyScript()">
+                                <span class="btn-icon">📋</span> 복사
+                            </button>
+                            <button class="btn btn-primary" onclick="Cleanup.downloadScript()">
+                                <span class="btn-icon">💾</span> 다운로드
+                            </button>
+                        </div>
+                    </div>
+                    <div class="script-preview">
+                        <pre><code id="scriptCode"></code></pre>
+                    </div>
+                    <div class="script-instructions">
+                        <h3>실행 방법</h3>
+                        <ol>
+                            <li>위 스크립트를 다운로드하거나 복사합니다.</li>
+                            <li><strong>PowerShell</strong>을 <strong>관리자 권한</strong>으로 실행합니다.</li>
+                            <li>스크립트 실행 정책을 변경합니다: <code>Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass</code></li>
+                            <li>스크립트를 실행합니다: <code>.\disk-cleanup.ps1</code></li>
+                            <li>각 단계별로 확인 메시지가 표시됩니다. Y/N으로 선택하세요.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- 추가 팁 섹션 -->
+                <div class="tips-section">
+                    <h2>컴퓨터 속도 개선 추가 팁</h2>
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <div class="tip-icon">🚀</div>
+                            <h3>시작 프로그램 정리</h3>
+                            <p>작업 관리자(Ctrl+Shift+Esc) → 시작프로그램 탭에서 불필요한 항목을 비활성화하세요.</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">💿</div>
+                            <h3>디스크 조각 모음</h3>
+                            <p>HDD 사용자: Windows 검색에서 "조각 모음"을 검색하여 실행하세요. (SSD는 불필요)</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">🔄</div>
+                            <h3>Windows 업데이트</h3>
+                            <p>설정 → 업데이트 및 보안에서 최신 업데이트를 설치하세요.</p>
+                        </div>
+                        <div class="tip-card">
+                            <div class="tip-icon">🛡️</div>
+                            <h3>악성코드 검사</h3>
+                            <p>Windows Defender로 전체 검사를 실행하여 악성 프로그램을 제거하세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 푸터 -->
+        <footer class="footer">
+            <div class="container">
+                <p>이 도구는 안전을 위해 스크립트만 생성합니다. 실행 전 반드시 내용을 검토하세요.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/cleanup.js"></script>
+</body>
+</html>

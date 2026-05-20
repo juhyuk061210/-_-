@@ -1,8 +1,102 @@
 // Display adjustments for the landing page. Desktop remains close to the original; mobile is optimized.
 (function () {
   var css = `
-.shipping-note{font-size:.5em;font-weight:700;white-space:nowrap;vertical-align:baseline}.author__photo img{object-fit:contain!important;object-position:center center!important;padding:10px;background:var(--paper)}
-@media (max-width:768px){html,body{overflow-x:hidden}body{width:100%;padding-bottom:112px}body *{min-width:0;box-sizing:border-box}.topnav,.hero,.proof,.section,.excerpt,.refund,.footer{width:100%;max-width:100vw;overflow-x:hidden}.topnav{padding:12px 18px;gap:12px}.nav-links,.nav-cta,.hero__brush{display:none}.wordmark{font-size:15px}.wordmark__chip{font-size:11px;padding:3px 7px}.hero{padding:44px 20px 58px}.hero__grid,.section__inner,.excerpt__inner,.proof__inner,.refund__grid,.footer__inner{width:100%;max-width:calc(100vw - 40px);margin:0 auto}.hero__cover-wrap{order:2;padding-top:10px}.book-cover{width:min(248px,calc(100vw - 104px));box-shadow:7px 7px 0 var(--ink)}.hero__discount{left:18px;bottom:-18px;padding:8px 12px;font-size:11px}.hero__badges{gap:7px;margin-bottom:24px}.badge{max-width:100%;padding:5px 10px;font-size:11px;line-height:1.25;white-space:normal}.hero__eyebrow{gap:10px;font-size:12px;letter-spacing:.08em}.hero__title{font-size:clamp(36px,10.2vw,46px);line-height:1.06;letter-spacing:0;max-width:calc(100vw - 48px);margin:10px 0 22px}.hero__title .accent{display:inline}.hero__hook{font-size:18px;line-height:1.62}.hero__sub{font-size:15px;line-height:1.78;text-align:left!important}.hero__cta-row{flex-direction:column;gap:12px}.hero-cta{width:100%;max-width:calc(100vw - 52px);flex:0 1 auto;min-height:58px;padding:13px 16px}.hero__links{align-items:flex-start;line-height:1.5}.hero__stats{display:grid;grid-template-columns:1fr;gap:14px;max-width:calc(100vw - 52px);margin-top:34px;padding-top:22px}.hero__stat-num{font-size:34px}.hero__stat-label{font-size:12px;line-height:1.35}.proof{padding:28px 20px}.proof__inner{display:grid;grid-template-columns:1fr 1fr;gap:18px 14px}.proof__cell:nth-child(2),.proof__cell:nth-child(3){display:none}.section{padding:68px 20px}.section-label{gap:10px;font-size:11px;letter-spacing:.09em;margin-bottom:18px}.hero__title,.hero__stat-num,.video__head h2,.video__title,.notvsis__head h2,.chapters__head h2,.chapter__num,.author__name,.benefit__num,.curriculum__head h2,.week__num,.week__time,.results__head h2,.case__avatar,.stamp,.refund__copy h2,.plans__head h2,.plan__title,.plan__price,.plans__faq-q,.reviews__head h2,.quote__mark,.cta-section__title,.cta-card__price,.faq__head h2{font-family:var(--font-body)!important;font-weight:900;letter-spacing:0}.notvsis__head h2,.benefits__head h2,.curriculum__head h2,.results__head h2,.plans__head h2,.reviews__head h2,.faq__head h2,.chapters__head h2,.refund__copy h2,.cta-section__title{font-size:clamp(30px,8.8vw,38px);line-height:1.24;word-break:keep-all}.notvsis__head,.benefits__head,.curriculum__head,.results__head,.plans__head,.reviews__head,.faq__head{margin-bottom:34px}.notvsis__grid,.benefits__grid,.plans__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.notvsis__grid{gap:10px}.benefits__grid{gap:12px}.plans__grid{gap:10px;align-items:stretch;max-width:calc(100vw - 40px)}.results__grid,.reviews__grid{grid-template-columns:1fr;gap:22px}.notvsis__card,.benefit{width:100%;max-width:none;padding:18px 12px;box-shadow:3px 3px 0 var(--ink)}.notvsis__card-label{font-size:10px;line-height:1.35;letter-spacing:.04em}.notvsis__card li{font-size:12px;line-height:1.45;padding:8px 0}.benefit__num{font-size:28px}.benefit h4{font-size:14px;line-height:1.38}.benefit p{font-size:12px;line-height:1.55}.case,.quote,.plans__faq,.faq-item,.cta-card{width:100%;max-width:calc(100vw - 52px);padding:24px 20px;box-shadow:3px 3px 0 var(--ink)}.quote{transform:none}.plan{width:100%;max-width:none;padding:18px 10px;border-radius:8px;box-shadow:3px 3px 0 var(--ink)}.plan--bundle{transform:none;box-shadow:5px 5px 0 var(--ink)}.plan__badge{top:-12px;right:8px;padding:4px 8px;font-size:9px;letter-spacing:0}.plan__option{font-size:9px;letter-spacing:.08em;margin-bottom:8px}.plan__title{font-size:20px;line-height:1.22}.plan--bundle .plan__title{font-size:21px}.plan__desc{font-size:11px;line-height:1.5;margin-bottom:16px}.plan__price-wrap{margin-bottom:16px}.plan--bundle .plan__price,.plan__price{font-size:22px;line-height:1.14}.plan__features{margin-bottom:16px}.plan__features li{gap:6px;padding:7px 0;font-size:11px;line-height:1.45}.plan__check,.plan__dash{width:14px;height:14px;line-height:14px;font-size:9px}.plan__price-meta,.plan__micro{font-size:10px;line-height:1.45;word-break:keep-all}.plan__cta{min-height:42px;padding:10px 8px;font-size:11px;line-height:1.35;display:flex;align-items:center;justify-content:center}.excerpt{padding:70px 20px}.excerpt__card{width:100%;max-width:calc(100vw - 52px);padding:44px 22px 30px;box-shadow:5px 5px 0 var(--ink)}.excerpt__body{font-size:16px;line-height:1.82}.hero__hook,.hero__sub,.chapters__head p,.author__lead,.author__body,.curriculum__head p,.results__sub,.refund__copy p,.plans__social,.cta-section__sub,.cta-card__assurance,.results__foot{text-align:left!important;word-break:keep-all;overflow-wrap:anywhere}.excerpt__body,.section p,.notvsis__card li,.benefit p,.week__points li,.case__quote,.plan__desc,.plan__features li,.plans__faq-body,.quote__text,.faq-item p{white-space:normal;word-break:keep-all;overflow-wrap:anywhere}.chapters__grid,.author__grid,.refund__grid,.cta-card__grid,.week,.curriculum__totals,.case__ba{grid-template-columns:1fr}.chapter{grid-template-columns:54px 1fr;gap:14px;padding:18px 0}.chapter__num{font-size:32px}.chapter__title{font-size:18px;line-height:1.42;word-break:keep-all}.author__photo{width:min(280px,calc(100vw - 84px));margin:0 auto;box-shadow:5px 5px 0 var(--ink)}.author__photo img{padding:12px}.author__caption{left:12px;right:12px;bottom:12px;font-size:10px;line-height:1.35;letter-spacing:.04em}.author__name{font-size:clamp(34px,9.8vw,44px);line-height:1.22}.author__name-real{display:block;margin-top:4px;font-size:.5em}.author__lead{font-size:17px;line-height:1.78}.author__body{font-size:15px;line-height:1.84}.week{gap:12px;padding:22px 20px}.week__num{font-size:52px}.week__title{font-size:19px;line-height:1.42;word-break:keep-all}.week__time-cell{text-align:left}.case__arrow{justify-content:center;transform:rotate(90deg)}.refund{padding:62px 20px}.stamp{width:132px;height:132px}.footer{padding:36px 20px}.footer__cols{flex-direction:column;gap:16px}.sticky-bar{padding:10px 14px calc(10px + env(safe-area-inset-bottom))}.sticky-bar__inner{display:grid;grid-template-columns:42px minmax(0,1fr);gap:6px 12px;align-items:center}.sticky-bar__cover{display:block;grid-row:1/span 2;width:38px}.sticky-bar__title{font-size:12px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sticky-bar__price{font-size:12px;line-height:1.35}.sticky-bar__cta{grid-column:1/-1;width:100%;margin-left:0;padding:12px 16px;text-align:center;font-size:14px;border-color:var(--ink)}}`;
+.shipping-note { font-size: 0.5em; font-weight: 700; white-space: nowrap; vertical-align: baseline; }
+.author__photo img { object-fit: contain !important; object-position: center center !important; padding: 10px; background: var(--paper); }
+@media (max-width: 768px) {
+  html, body { overflow-x: hidden; }
+  body { width: 100%; padding-bottom: 112px; }
+  body * { min-width: 0; box-sizing: border-box; }
+  .topnav, .hero, .proof, .section, .excerpt, .refund, .footer { width: 100%; max-width: 100vw; overflow-x: hidden; }
+  .topnav { padding: 12px 18px; gap: 12px; }
+  .nav-links, .nav-cta, .hero__brush { display: none; }
+  .wordmark { font-size: 15px; }
+  .wordmark__chip { font-size: 11px; padding: 3px 7px; }
+  .hero { padding: 44px 20px 58px; }
+  .hero__grid, .section__inner, .excerpt__inner, .proof__inner, .refund__grid, .footer__inner { width: 100%; max-width: calc(100vw - 40px); margin: 0 auto; }
+  .hero__cover-wrap { order: 2; padding-top: 10px; }
+  .book-cover { width: min(248px, calc(100vw - 104px)); box-shadow: 7px 7px 0 var(--ink); }
+  .hero__discount { left: 18px; bottom: -18px; padding: 8px 12px; font-size: 11px; }
+  .hero__badges { gap: 7px; margin-bottom: 24px; }
+  .badge { max-width: 100%; padding: 5px 10px; font-size: 11px; line-height: 1.25; white-space: normal; }
+  .hero__eyebrow { gap: 10px; font-size: 12px; letter-spacing: 0.08em; }
+  .hero__title { font-size: clamp(36px, 10.2vw, 46px); line-height: 1.06; letter-spacing: 0; max-width: calc(100vw - 48px); margin: 10px 0 22px; }
+  .hero__title .accent { display: inline; }
+  .hero__hook { font-size: 18px; line-height: 1.62; }
+  .hero__sub { font-size: 15px; line-height: 1.78; text-align: left !important; }
+  .hero__cta-row { flex-direction: column; gap: 12px; }
+  .hero-cta { width: 100%; max-width: calc(100vw - 52px); flex: 0 1 auto; min-height: 58px; padding: 13px 16px; }
+  .hero__links { align-items: flex-start; line-height: 1.5; }
+  .hero__stats { display: grid; grid-template-columns: 1fr; gap: 14px; max-width: calc(100vw - 52px); margin-top: 34px; padding-top: 22px; }
+  .hero__stat-num { font-size: 34px; }
+  .hero__stat-label { font-size: 12px; line-height: 1.35; }
+  .proof { padding: 28px 20px; }
+  .proof__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 14px; }
+  .proof__cell:nth-child(2), .proof__cell:nth-child(3) { display: none; }
+  .section { padding: 68px 20px; }
+  .section-label { gap: 10px; font-size: 11px; letter-spacing: 0.09em; margin-bottom: 18px; }
+  .hero__title, .hero__stat-num, .video__head h2, .video__title, .notvsis__head h2, .chapters__head h2, .chapter__num, .author__name, .benefit__num, .curriculum__head h2, .week__num, .week__time, .results__head h2, .case__avatar, .stamp, .refund__copy h2, .plans__head h2, .plan__title, .plan__price, .plans__faq-q, .reviews__head h2, .quote__mark, .cta-section__title, .cta-card__price, .faq__head h2 { font-family: var(--font-body) !important; font-weight: 900; letter-spacing: 0; }
+  .notvsis__head h2, .benefits__head h2, .curriculum__head h2, .results__head h2, .plans__head h2, .reviews__head h2, .faq__head h2, .chapters__head h2, .refund__copy h2, .cta-section__title { font-size: clamp(30px, 8.8vw, 38px); line-height: 1.24; word-break: keep-all; }
+  .notvsis__head, .benefits__head, .curriculum__head, .results__head, .plans__head, .reviews__head, .faq__head { margin-bottom: 34px; }
+  .notvsis__grid, .benefits__grid, .plans__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .notvsis__grid { gap: 10px; }
+  .benefits__grid { gap: 12px; }
+  .plans__grid { gap: 10px; align-items: stretch; max-width: calc(100vw - 40px); }
+  .results__grid, .reviews__grid { grid-template-columns: 1fr; gap: 22px; }
+  .notvsis__card, .benefit { width: 100%; max-width: none; padding: 18px 12px; box-shadow: 3px 3px 0 var(--ink); }
+  .notvsis__card-label { font-size: 10px; line-height: 1.35; letter-spacing: 0.04em; }
+  .notvsis__card li { font-size: 12px; line-height: 1.45; padding: 8px 0; }
+  .benefit__num { font-size: 28px; }
+  .benefit h4 { font-size: 14px; line-height: 1.38; }
+  .benefit p { font-size: 12px; line-height: 1.55; }
+  .case, .quote, .plans__faq, .faq-item, .cta-card { width: 100%; max-width: calc(100vw - 52px); padding: 24px 20px; box-shadow: 3px 3px 0 var(--ink); }
+  .quote { transform: none; }
+  .plan { width: 100%; max-width: none; padding: 18px 10px; border-radius: 8px; box-shadow: 3px 3px 0 var(--ink); }
+  .plan--bundle { transform: none; box-shadow: 5px 5px 0 var(--ink); }
+  .plan__badge { top: -12px; right: 8px; padding: 4px 8px; font-size: 9px; letter-spacing: 0; }
+  .plan__option { font-size: 9px; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .plan__title { font-size: 20px; line-height: 1.22; }
+  .plan--bundle .plan__title { font-size: 21px; }
+  .plan__desc { font-size: 11px; line-height: 1.5; margin-bottom: 16px; }
+  .plan__price-wrap { margin-bottom: 16px; }
+  .plan--bundle .plan__price, .plan__price { font-size: 22px; line-height: 1.14; }
+  .plan__features { margin-bottom: 16px; }
+  .plan__features li { gap: 6px; padding: 7px 0; font-size: 11px; line-height: 1.45; }
+  .plan__check, .plan__dash { width: 14px; height: 14px; line-height: 14px; font-size: 9px; }
+  .plan__price-meta, .plan__micro { font-size: 10px; line-height: 1.45; word-break: keep-all; }
+  .plan__cta { min-height: 42px; padding: 10px 8px; font-size: 11px; line-height: 1.35; display: flex; align-items: center; justify-content: center; }
+  .excerpt { padding: 70px 20px; }
+  .excerpt__card { width: 100%; max-width: calc(100vw - 52px); padding: 44px 22px 30px; box-shadow: 5px 5px 0 var(--ink); }
+  .excerpt__body { font-size: 16px; line-height: 1.82; }
+  .hero__hook, .hero__sub, .chapters__head p, .author__lead, .author__body, .curriculum__head p, .results__sub, .refund__copy p, .plans__social, .cta-section__sub, .cta-card__assurance, .results__foot { text-align: left !important; word-break: keep-all; overflow-wrap: anywhere; }
+  .excerpt__body, .section p, .notvsis__card li, .benefit p, .week__points li, .case__quote, .plan__desc, .plan__features li, .plans__faq-body, .quote__text, .faq-item p { white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
+  .chapters__grid, .author__grid, .refund__grid, .cta-card__grid, .week, .curriculum__totals, .case__ba { grid-template-columns: 1fr; }
+  .chapter { grid-template-columns: 54px 1fr; gap: 14px; padding: 18px 0; }
+  .chapter__num { font-size: 32px; }
+  .chapter__title { font-size: 18px; line-height: 1.42; word-break: keep-all; }
+  .author__photo { width: min(280px, calc(100vw - 84px)); margin: 0 auto; box-shadow: 5px 5px 0 var(--ink); }
+  .author__photo img { padding: 12px; }
+  .author__caption { left: 12px; right: 12px; bottom: 12px; font-size: 10px; line-height: 1.35; letter-spacing: 0.04em; }
+  .author__name { font-size: clamp(34px, 9.8vw, 44px); line-height: 1.22; }
+  .author__name-real { display: block; margin-top: 4px; font-size: 0.5em; }
+  .author__lead { font-size: 17px; line-height: 1.78; }
+  .author__body { font-size: 15px; line-height: 1.84; }
+  .week { gap: 12px; padding: 22px 20px; }
+  .week__num { font-size: 52px; }
+  .week__title { font-size: 19px; line-height: 1.42; word-break: keep-all; }
+  .week__time-cell { text-align: left; }
+  .case__arrow { justify-content: center; transform: rotate(90deg); }
+  .refund { padding: 62px 20px; }
+  .stamp { width: 132px; height: 132px; }
+  .footer { padding: 36px 20px; }
+  .footer__cols { flex-direction: column; gap: 16px; }
+  .sticky-bar { padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); }
+  .sticky-bar__inner { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 6px 12px; align-items: center; }
+  .sticky-bar__cover { display: block; grid-row: 1 / span 2; width: 38px; }
+  .sticky-bar__title { font-size: 12px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sticky-bar__price { font-size: 12px; line-height: 1.35; }
+  .sticky-bar__cta { grid-column: 1 / -1; width: 100%; margin-left: 0; padding: 12px 16px; text-align: center; font-size: 14px; border-color: var(--ink); }
+}`;
   var style = document.createElement('style');
   style.setAttribute('data-mobile-comfort', 'true');
   style.textContent = css;
@@ -29,7 +123,7 @@
     setHtml('.cta-card__col--left .cta-card__price', '7,000원 <span class="shipping-note">(배송비만 부담)</span>');
     setHtml('.cta-card__col--right .cta-card__price', '29,800원 <span class="shipping-note">(무료배송)</span>');
     setHtml('.sticky-bar__price .accent', '7,000원 <span class="shipping-note">(배송비만 부담)</span>');
-    setHtml('.cta-section__sub', '책은 <strong>7,000원</strong> <span class="shipping-note">(배송비만 부담)</span>으로 받으세요.<br />지금 가장 많이 선택하는 옵션은 <strong class="accent">책 + 강의와 함께</strong>입니다.');
+    setHtml('.cta-section__sub', '책은 <strong>7,000원</strong> <span class="shipping-note">(배송비만 부담)</span>으로 받으세요.<br />지금 가장 많이 선택하는 옵션은<br /><strong class="accent">책 + 강의와 함께</strong>입니다.');
     setAllText('책 + 강의 함께', '책 + 강의와 함께');
     setAllText('약 280페이지', '약 238페이지');
     setAllText('280페이지', '238페이지');

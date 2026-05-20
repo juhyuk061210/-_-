@@ -44,10 +44,10 @@
   .hero__eyebrow { gap: 10px; font-size: 12px; letter-spacing: 0.08em; }
   .hero__eyebrow-bar { width: 28px; }
 
-  .hero__title { font-size: clamp(38px, 10.8vw, 48px); line-height: 1.18; letter-spacing: 0; max-width: calc(100vw - 48px); margin: 10px 0 24px; }
-  .hero__title .accent { display: block; }
+  .hero__title { font-size: clamp(36px, 10.2vw, 46px); line-height: 1.06; letter-spacing: 0; max-width: calc(100vw - 48px); margin: 10px 0 22px; }
+  .hero__title .accent { display: inline; }
   .hero__hook { font-size: 18px; line-height: 1.62; }
-  .hero__sub { font-size: 15px; line-height: 1.82; }
+  .hero__sub { font-size: 15px; line-height: 1.78; }
 
   .hero__cta-row { flex-direction: column; gap: 12px; }
   .hero-cta { width: 100%; max-width: calc(100vw - 52px); flex: 0 1 auto; min-height: 58px; padding: 13px 16px; }
@@ -61,6 +61,7 @@
   .proof { padding: 28px 20px; }
   .proof__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 14px; }
   .proof__cell { min-width: 0; }
+  .proof__cell:nth-child(2), .proof__cell:nth-child(3) { display: none; }
   .proof__v { font-size: 14px; line-height: 1.35; }
 
   .section { padding: 68px 20px; }
@@ -110,8 +111,16 @@
   .cta-section__title { font-size: clamp(30px, 8.8vw, 38px); line-height: 1.24; letter-spacing: 0; word-break: keep-all; }
 
   .video__frame { box-shadow: 5px 5px 0 var(--ink); padding: 24px; }
-  .notvsis__grid, .benefits__grid, .results__grid, .reviews__grid, .plans__grid { grid-template-columns: 1fr; gap: 22px; }
-  .notvsis__card, .benefit, .case, .quote, .plan, .plans__faq, .faq-item, .cta-card { width: 100%; max-width: calc(100vw - 52px); padding: 24px 20px; box-shadow: 3px 3px 0 var(--ink); }
+  .results__grid, .reviews__grid, .plans__grid { grid-template-columns: 1fr; gap: 22px; }
+  .notvsis__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .benefits__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .notvsis__card, .benefit { width: 100%; max-width: none; padding: 18px 12px; box-shadow: 3px 3px 0 var(--ink); }
+  .notvsis__card-label { font-size: 10px; line-height: 1.35; letter-spacing: 0.04em; }
+  .notvsis__card li { font-size: 12px; line-height: 1.45; padding: 8px 0; }
+  .benefit__num { font-size: 28px; }
+  .benefit h4 { font-size: 14px; line-height: 1.38; }
+  .benefit p { font-size: 12px; line-height: 1.55; }
+  .case, .quote, .plan, .plans__faq, .faq-item, .cta-card { width: 100%; max-width: calc(100vw - 52px); padding: 24px 20px; box-shadow: 3px 3px 0 var(--ink); }
   .quote { transform: none; }
 
   .excerpt { padding: 70px 20px; }
@@ -145,7 +154,7 @@
   .refund__copy h2 br,
   .refund__copy p br,
   .cta-section__title br,
-  .cta-section__sub br { display: none; }
+  .cta-section__sub br { display: inline; }
 
   .excerpt__body,
   .section p,
@@ -211,6 +220,33 @@
   style.setAttribute('data-mobile-comfort', 'true');
   style.textContent = css;
   document.head.appendChild(style);
+
+  function html(selector, value) {
+    var node = document.querySelector(selector);
+    if (node) node.innerHTML = value;
+  }
+
+  function applyRequestedMobileCopy() {
+    if (!window.matchMedia('(max-width: 768px)').matches) return;
+
+    html('.hero__title', '한 달에 <span class="accent">4천만 원</span><br />버는 고3입니다.');
+    html('.hero__sub', '성인이 되기 직전,<br />월 수익 <span class="mark">4,000만 원</span>을 달성하기까지의 치열한 기록.');
+
+    html('.excerpt__body', '어른들이 가르쳐 준 길은, 어른들도 안 가본 길이었다.<br /><br />"공부해서 좋은 회사에 들어가라"고 말하는 사람들 중에,<br />정말 좋은 회사에 들어가서 만족하고 사는 사람이 얼마나 될까.<br />나는 그게 늘 궁금했다.<br /><br />18살이 되어서야 알았다.<br />사실 그 길은 꿈을 포기한 사람들이<br />서로를 위로하며 적당히 안주하도록,<br />세상이 교묘하게 설계해 둔 판이란 것을.<br /><br />그걸 깨달으니 내가 가고자 했던 길에서 겪었던 실패가 더 이상 부끄럽지 않게 되었다.');
+
+    html('.chapters__head h2', '그는 어떻게 학생 신분으로<br />월 4천을 벌었을까?');
+    html('.chapters__head p', '오직 숫자와 결과로만 증명한<br />10대의 진짜 생존 기록입니다.');
+
+    html('.author__lead', '교복을 입었다고 해서<br />자본주의까지 양보할 필요는 없었다.');
+    html('.author__body', '수능 대신 사업을 선택했고<br />시험점수 대신 국세청 매출로 증명했다.<br /><br />18세 고등학생이 자본주의라는 거대한 게임의 룰을<br />어떻게 깨부수고 승리했는지,<br />그 생생한 치트키를 공개합니다.');
+
+    html('.benefits__head h2', '이 책을 읽기 전으로<br />절대 돌아갈 수 없습니다.');
+    html('.curriculum__head p', '책이 무엇을 했는지 알려준다면,<br />강의는 지금 당신이 어떻게 시작해야 하는지를 알려줍니다.');
+    html('.refund__copy h2', '마음에 들지 않으면<br />이유 없이 환불합니다.');
+  }
+
+  applyRequestedMobileCopy();
+  window.addEventListener('resize', applyRequestedMobileCopy);
 })();
 
 // Show sticky purchase bar after scrolling 600px.

@@ -133,6 +133,7 @@
   }
 
   function applyRequestedCopy() {
+    setHtml('.author__lead', '왜 학교는 자본주의를 가르치지 않을까.<br />그 의도된 침묵을 알아차린 순간,<br />안타까움과 동시에 확신이 들었다.');
     setHtml('.hero-cta--ghost .hero-cta__main', '7,000원 <span class="shipping-note">(배송비만 부담)</span> · 혼자 시작');
     setHtml('.plan--basic .plan__price', '7,000원 <span class="shipping-note">(배송비만 부담)</span>');
     setHtml('.cta-card__col--left .cta-card__price', '7,000원 <span class="shipping-note">(배송비만 부담)</span>');
@@ -159,7 +160,6 @@
     setHtml('.excerpt__body', '어른들이 가르쳐 준 길은, 어른들도 안 가본 길이었다.<br /><br />"공부해서 좋은 회사에 들어가라"고 말하는 사람들 중에,<br />정말 좋은 회사에 들어가서 만족하고 사는 사람이 얼마나 될까.<br />나는 그게 늘 궁금했다.<br /><br />18살이 되어서야 알았다.<br />사실 그 길은 꿈을 포기한 사람들이<br />서로를 위로하며 적당히 안주하도록,<br />세상이 교묘하게 설계해 둔 판이란 것을.<br /><br />그걸 깨달으니 내가 가고자 했던 길에서 겪었던 실패가 더 이상 부끄럽지 않게 되었다.');
     setHtml('.chapters__head h2', '그는 어떻게 학생 신분으로<br />월 4천을 벌었을까?');
     setHtml('.chapters__head p', '오직 숫자와 결과로만 증명한<br />10대의 진짜 생존 기록입니다.');
-    setHtml('.author__lead', '교복을 입었다고 해서<br />자본주의까지 양보할 필요는 없었다.');
     setHtml('.author__body', '수능 대신 사업을 선택했고<br />시험점수 대신 국세청 매출로 증명했다.<br /><br />18세 고등학생이 자본주의라는 거대한 게임의 룰을<br />어떻게 깨부수고 승리했는지,<br />그 생생한 치트키를 공개합니다.');
     setHtml('.benefits__head h2', '이 책을 읽기 전으로<br />절대 돌아갈 수 없습니다.');
     setHtml('.curriculum__head p', '책이 무엇을 했는지 알려준다면,<br />강의는 지금 당신이 어떻게 시작해야 하는지를 알려줍니다.');

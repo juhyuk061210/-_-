@@ -1,6 +1,13 @@
 // Mobile-only comfort adjustments. Keeps the desktop design unchanged.
 (function () {
   var css = `
+.author__photo img {
+  object-fit: contain !important;
+  object-position: center center !important;
+  padding: 10px;
+  background: var(--paper);
+}
+
 @media (max-width: 768px) {
   html, body { overflow-x: hidden; }
   body { width: 100%; padding-bottom: 112px; }
@@ -37,10 +44,10 @@
   .hero__eyebrow { gap: 10px; font-size: 12px; letter-spacing: 0.08em; }
   .hero__eyebrow-bar { width: 28px; }
 
-  .hero__title { font-size: clamp(42px, 12vw, 52px); line-height: 1.12; letter-spacing: 0; max-width: calc(100vw - 48px); margin: 10px 0 24px; }
+  .hero__title { font-size: clamp(38px, 10.8vw, 48px); line-height: 1.18; letter-spacing: 0; max-width: calc(100vw - 48px); margin: 10px 0 24px; }
   .hero__title .accent { display: block; }
-  .hero__hook { font-size: 18px; line-height: 1.55; }
-  .hero__sub { font-size: 15px; line-height: 1.75; }
+  .hero__hook { font-size: 18px; line-height: 1.62; }
+  .hero__sub { font-size: 15px; line-height: 1.82; }
 
   .hero__cta-row { flex-direction: column; gap: 12px; }
   .hero-cta { width: 100%; max-width: calc(100vw - 52px); flex: 0 1 auto; min-height: 58px; padding: 13px 16px; }
@@ -61,6 +68,36 @@
   .section-label__bar { width: 24px; }
   .notvsis__head, .benefits__head, .curriculum__head, .results__head, .plans__head, .reviews__head, .faq__head { margin-bottom: 34px; }
 
+  .hero__title,
+  .hero__stat-num,
+  .video__head h2,
+  .video__title,
+  .notvsis__head h2,
+  .chapters__head h2,
+  .chapter__num,
+  .author__name,
+  .benefit__num,
+  .curriculum__head h2,
+  .week__num,
+  .week__time,
+  .results__head h2,
+  .case__avatar,
+  .stamp,
+  .refund__copy h2,
+  .plans__head h2,
+  .plan__title,
+  .plan__price,
+  .plans__faq-q,
+  .reviews__head h2,
+  .quote__mark,
+  .cta-section__title,
+  .cta-card__price,
+  .faq__head h2 {
+    font-family: var(--font-body) !important;
+    font-weight: 900;
+    letter-spacing: 0;
+  }
+
   .notvsis__head h2,
   .benefits__head h2,
   .curriculum__head h2,
@@ -70,7 +107,7 @@
   .faq__head h2,
   .chapters__head h2,
   .refund__copy h2,
-  .cta-section__title { font-size: clamp(34px, 10vw, 44px); line-height: 1.16; letter-spacing: 0; word-break: keep-all; }
+  .cta-section__title { font-size: clamp(30px, 8.8vw, 38px); line-height: 1.24; letter-spacing: 0; word-break: keep-all; }
 
   .video__frame { box-shadow: 5px 5px 0 var(--ink); padding: 24px; }
   .notvsis__grid, .benefits__grid, .results__grid, .reviews__grid, .plans__grid { grid-template-columns: 1fr; gap: 22px; }
@@ -79,8 +116,36 @@
 
   .excerpt { padding: 70px 20px; }
   .excerpt__card { width: 100%; max-width: calc(100vw - 52px); padding: 44px 22px 30px; box-shadow: 5px 5px 0 var(--ink); }
-  .excerpt__body { font-size: 16px; line-height: 1.78; }
+  .excerpt__quote-mark { font-family: var(--font-body) !important; font-weight: 900; }
+  .excerpt__body { font-size: 16px; line-height: 1.82; }
   .excerpt__foot { flex-direction: column; gap: 6px; align-items: flex-start; }
+
+  .hero__hook,
+  .hero__sub,
+  .chapters__head p,
+  .author__lead,
+  .author__body,
+  .curriculum__head p,
+  .results__sub,
+  .refund__copy p,
+  .plans__social,
+  .cta-section__sub,
+  .cta-card__assurance,
+  .results__foot {
+    text-align: left !important;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  .hero__sub br,
+  .chapters__head p br,
+  .author__lead br,
+  .author__body br,
+  .curriculum__head p br,
+  .refund__copy h2 br,
+  .refund__copy p br,
+  .cta-section__title br,
+  .cta-section__sub br { display: none; }
 
   .excerpt__body,
   .section p,
@@ -92,20 +157,27 @@
   .plan__features li,
   .plans__faq-body,
   .quote__text,
-  .faq-item p { white-space: normal; word-break: normal; overflow-wrap: anywhere; }
+  .faq-item p { white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
 
   .chapters__grid, .author__grid, .refund__grid, .cta-card__grid { grid-template-columns: 1fr; gap: 32px; }
   .chapter { grid-template-columns: 54px 1fr; gap: 14px; padding: 18px 0; }
-  .chapter__num { font-size: 34px; }
-  .chapter__title { font-size: 18px; line-height: 1.35; }
+  .chapter__num { font-size: 32px; }
+  .chapter__title { font-size: 18px; line-height: 1.42; word-break: keep-all; }
+  .chapter__sub { line-height: 1.68; word-break: keep-all; }
   .chapters__foot { text-align: left; }
 
   .author__photo { width: min(280px, calc(100vw - 84px)); margin: 0 auto; box-shadow: 5px 5px 0 var(--ink); }
-  .author__name { font-size: clamp(42px, 12vw, 54px); letter-spacing: 0; }
+  .author__photo img { padding: 12px; }
+  .author__caption { left: 12px; right: 12px; bottom: 12px; font-size: 10px; line-height: 1.35; letter-spacing: 0.04em; }
+  .author__name { font-size: clamp(34px, 9.8vw, 44px); line-height: 1.22; letter-spacing: 0; }
+  .author__name-real { display: block; margin-top: 4px; font-size: 0.5em; }
+  .author__lead { font-size: 17px; line-height: 1.78; }
+  .author__body { font-size: 15px; line-height: 1.84; }
 
   .week { grid-template-columns: 1fr; gap: 12px; padding: 22px 20px; }
-  .week__num { font-size: 56px; }
-  .week__title { font-size: 19px; }
+  .week__num { font-size: 52px; }
+  .week__title { font-size: 19px; line-height: 1.42; word-break: keep-all; }
+  .week__sub { line-height: 1.68; word-break: keep-all; }
   .week__time-cell { text-align: left; }
   .curriculum__totals, .case__ba { grid-template-columns: 1fr; }
   .case__arrow { justify-content: center; transform: rotate(90deg); }
@@ -116,11 +188,13 @@
 
   .plan--bundle { transform: none; box-shadow: 7px 7px 0 var(--ink); }
   .plan__badge { top: -14px; right: 16px; font-size: 11px; }
-  .plan__title { font-size: 32px; line-height: 1.15; }
-  .plan--bundle .plan__title { font-size: 36px; }
-  .plan--bundle .plan__price, .plan__price { font-size: 38px; }
+  .plan__title { font-size: 30px; line-height: 1.22; }
+  .plan--bundle .plan__title { font-size: 32px; }
+  .plan--bundle .plan__price, .plan__price { font-size: 34px; line-height: 1.14; }
+  .plan__price-meta, .cta-card__meta { line-height: 1.55; word-break: keep-all; }
   .plan__cta, .cta-card__cta, .sticky-bar__cta { min-height: 48px; display: flex; align-items: center; justify-content: center; }
 
+  .quote__text, .faq-item summary, .faq-item p, .case__quote { line-height: 1.72; word-break: keep-all; }
   .footer { padding: 36px 20px; }
   .footer__cols { flex-direction: column; gap: 16px; }
 

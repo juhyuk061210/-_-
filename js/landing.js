@@ -11,12 +11,11 @@
   .topnav { padding: 12px 18px; gap: 12px; }
   .wordmark { font-size: 15px; }
   .wordmark__chip { font-size: 11px; padding: 3px 7px; }
-  .nav-links, .nav-cta { display: none; }
+  .nav-links, .nav-cta, .hero__brush { display: none; }
   .hero { padding: 44px 20px 58px; }
-  .hero__grid, .section__inner, .excerpt__inner, .proof__inner, .refund__grid, .footer__inner { width: 100%; max-width: calc(100vw - 40px); margin-left: auto; margin-right: auto; }
+  .hero__grid, .section__inner, .excerpt__inner, .proof__inner, .refund__grid, .footer__inner { width: 100%; max-width: calc(100vw - 40px); margin: 0 auto; }
   .hero__cover-wrap { order: 2; padding-top: 10px; }
   .book-cover { width: min(248px, calc(100vw - 104px)); box-shadow: 7px 7px 0 var(--ink); }
-  .hero__brush { display: none; }
   .hero__discount { left: 18px; bottom: -18px; padding: 8px 12px; font-size: 11px; }
   .hero__badges { gap: 7px; margin-bottom: 24px; }
   .badge { max-width: 100%; padding: 5px 10px; font-size: 11px; line-height: 1.25; white-space: normal; }
@@ -157,7 +156,7 @@
     if (!window.matchMedia('(max-width: 768px)').matches) return;
     setHtml('.hero__title', '한 달에 <span class="accent">4천만 원</span><br />버는 고3입니다.');
     setHtml('.hero__sub', '성인이 되기 직전,<br />월 수익 <span class="mark">4,000만 원</span>을 달성하기까지의 치열한 기록.');
-    setHtml('.excerpt__body', '어른들이 가르쳐 준 길은, 어른들도 안 가본 길이었다.<br /><br />"공부해서 좋은 회사에 들어가라"고 말하는 사람들 중에,<br />정말 좋은 회사에 들어가서 만족하고 사는 사람이 얼마나 될까.<br />나는 그게 늘 궁금했다.<br /><br />18살이 되어서야 알았다.<br />사실 그 길은 꿈을 포기한 사람들이<br />서로를 위로하며 적당히 안주하도록,<br />세상이 교묘하게 설계해 둔 판이란 것을.<br /><br />그걸 깨달으니 내가 가고자 했던 길에서 겪었던 실패가 더 이상 부끄럽지 않게 되었다.');
+    setHtml('.excerpt__body', '어른들이 가르쳐 준 길은, 어른들도 안 가본 길이었다.<br /><br />"공부해서 좋은 회사에 들어가라"고 말하는<br />사람들 중에 정말 좋은 회사에 들어가서<br />만족하고 사는 사람이 얼마나 될까.<br />나는 그게 늘 궁금했다.<br /><br />18살이 되어서야 알았다.<br />사실 그 길은 꿈을 포기한 사람들이<br />서로를 위로하며 적당히 안주하도록,<br />세상이 교묘하게 설계해 둔 판이란 것을.<br /><br />그걸 깨달으니 내가 가고자 했던 길에서 겪었던 실패가 더 이상 부끄럽지 않게 되었다.');
     setHtml('.chapters__head h2', '그는 어떻게 학생 신분으로<br />월 4천을 벌었을까?');
     setHtml('.chapters__head p', '오직 숫자와 결과로만 증명한<br />10대의 진짜 생존 기록입니다.');
     setHtml('.author__body', '수능 대신 사업을 선택했고<br />시험점수 대신 국세청 매출로 증명했다.<br /><br />18세 고등학생이 자본주의라는 거대한 게임의 룰을<br />어떻게 깨부수고 승리했는지,<br />그 생생한 치트키를 공개합니다.');

@@ -11,6 +11,7 @@
   .wordmark { font-size: 15px; }
   .wordmark__chip { font-size: 11px; padding: 3px 7px; }
   .nav-links, .nav-cta { display: none; }
+
   .hero { padding: 44px 20px 58px; }
   .hero__grid, .section__inner, .excerpt__inner, .proof__inner, .refund__grid, .footer__inner { width: 100%; max-width: calc(100vw - 40px); margin-left: auto; margin-right: auto; }
   .hero__cover-wrap { order: 2; padding-top: 10px; }
@@ -32,6 +33,7 @@
   .hero__stats { display: grid; grid-template-columns: 1fr; gap: 14px; max-width: calc(100vw - 52px); margin-top: 34px; padding-top: 22px; }
   .hero__stat-num { font-size: 34px; }
   .hero__stat-label { font-size: 12px; line-height: 1.35; }
+
   .proof { padding: 28px 20px; }
   .proof__inner { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 14px; }
   .proof__cell:nth-child(2), .proof__cell:nth-child(3) { display: none; }
@@ -39,20 +41,43 @@
   .section { padding: 68px 20px; }
   .section-label { gap: 10px; font-size: 11px; letter-spacing: 0.09em; margin-bottom: 18px; }
   .section-label__bar { width: 24px; }
+
   .hero__title, .hero__stat-num, .video__head h2, .video__title, .notvsis__head h2, .chapters__head h2, .chapter__num, .author__name, .benefit__num, .curriculum__head h2, .week__num, .week__time, .results__head h2, .case__avatar, .stamp, .refund__copy h2, .plans__head h2, .plan__title, .plan__price, .plans__faq-q, .reviews__head h2, .quote__mark, .cta-section__title, .cta-card__price, .faq__head h2 { font-family: var(--font-body) !important; font-weight: 900; letter-spacing: 0; }
   .notvsis__head, .benefits__head, .curriculum__head, .results__head, .plans__head, .reviews__head, .faq__head { margin-bottom: 34px; }
   .notvsis__head h2, .benefits__head h2, .curriculum__head h2, .results__head h2, .plans__head h2, .reviews__head h2, .faq__head h2, .chapters__head h2, .refund__copy h2, .cta-section__title { font-size: clamp(30px, 8.8vw, 38px); line-height: 1.24; word-break: keep-all; }
-  .notvsis__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .benefits__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .results__grid, .reviews__grid, .plans__grid { grid-template-columns: 1fr; gap: 22px; }
+
+  .notvsis__grid, .benefits__grid, .plans__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .notvsis__grid { gap: 10px; }
+  .benefits__grid { gap: 12px; }
+  .plans__grid { gap: 10px; align-items: stretch; max-width: calc(100vw - 40px); }
+  .results__grid, .reviews__grid { grid-template-columns: 1fr; gap: 22px; }
+
   .notvsis__card, .benefit { width: 100%; max-width: none; padding: 18px 12px; box-shadow: 3px 3px 0 var(--ink); }
   .notvsis__card-label { font-size: 10px; line-height: 1.35; letter-spacing: 0.04em; }
   .notvsis__card li { font-size: 12px; line-height: 1.45; padding: 8px 0; }
   .benefit__num { font-size: 28px; }
   .benefit h4 { font-size: 14px; line-height: 1.38; }
   .benefit p { font-size: 12px; line-height: 1.55; }
-  .case, .quote, .plan, .plans__faq, .faq-item, .cta-card { width: 100%; max-width: calc(100vw - 52px); padding: 24px 20px; box-shadow: 3px 3px 0 var(--ink); }
+
+  .case, .quote, .plans__faq, .faq-item, .cta-card { width: 100%; max-width: calc(100vw - 52px); padding: 24px 20px; box-shadow: 3px 3px 0 var(--ink); }
   .quote { transform: none; }
+  .plan { width: 100%; max-width: none; padding: 18px 10px; border-radius: 8px; box-shadow: 3px 3px 0 var(--ink); }
+  .plan--bundle { transform: none; box-shadow: 5px 5px 0 var(--ink); }
+  .plan__badge { top: -12px; right: 8px; padding: 4px 8px; font-size: 9px; letter-spacing: 0; }
+  .plan__option { font-size: 9px; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .plan__title { font-size: 20px; line-height: 1.22; }
+  .plan--bundle .plan__title { font-size: 21px; }
+  .plan__desc { font-size: 11px; line-height: 1.5; margin-bottom: 16px; }
+  .plan__price-wrap { margin-bottom: 16px; }
+  .plan--bundle .plan__price, .plan__price { font-size: 22px; line-height: 1.14; }
+  .plan__discount-chip { font-size: 10px; padding: 3px 7px; }
+  .plan__features { margin-bottom: 16px; }
+  .plan__features li { gap: 6px; padding: 7px 0; font-size: 11px; line-height: 1.45; }
+  .plan__check, .plan__dash { width: 14px; height: 14px; line-height: 14px; font-size: 9px; }
+  .plan__price-meta { font-size: 10px; line-height: 1.45; word-break: keep-all; }
+  .plan__cta { min-height: 42px; padding: 10px 8px; font-size: 11px; line-height: 1.35; display: flex; align-items: center; justify-content: center; }
+  .plan__micro { font-size: 10px; line-height: 1.45; }
+
   .excerpt { padding: 70px 20px; }
   .excerpt__card { width: 100%; max-width: calc(100vw - 52px); padding: 44px 22px 30px; box-shadow: 5px 5px 0 var(--ink); }
   .excerpt__quote-mark { font-family: var(--font-body) !important; font-weight: 900; }
@@ -60,6 +85,7 @@
   .excerpt__foot { flex-direction: column; gap: 6px; align-items: flex-start; }
   .hero__hook, .hero__sub, .chapters__head p, .author__lead, .author__body, .curriculum__head p, .results__sub, .refund__copy p, .plans__social, .cta-section__sub, .cta-card__assurance, .results__foot { text-align: left !important; word-break: keep-all; overflow-wrap: anywhere; }
   .excerpt__body, .section p, .notvsis__card li, .benefit p, .week__points li, .case__quote, .plan__desc, .plan__features li, .plans__faq-body, .quote__text, .faq-item p { white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
+
   .chapters__grid, .author__grid, .refund__grid, .cta-card__grid { grid-template-columns: 1fr; gap: 32px; }
   .chapter { grid-template-columns: 54px 1fr; gap: 14px; padding: 18px 0; }
   .chapter__num { font-size: 32px; }
@@ -83,13 +109,8 @@
   .refund { padding: 62px 20px; }
   .stamp { width: 132px; height: 132px; }
   .stamp__big { font-size: 30px; }
-  .plan--bundle { transform: none; box-shadow: 7px 7px 0 var(--ink); }
-  .plan__badge { top: -14px; right: 16px; font-size: 11px; }
-  .plan__title { font-size: 30px; line-height: 1.22; }
-  .plan--bundle .plan__title { font-size: 32px; }
-  .plan--bundle .plan__price, .plan__price { font-size: 34px; line-height: 1.14; }
-  .plan__price-meta, .cta-card__meta { line-height: 1.55; word-break: keep-all; }
-  .plan__cta, .cta-card__cta, .sticky-bar__cta { min-height: 48px; display: flex; align-items: center; justify-content: center; }
+  .cta-card__meta { line-height: 1.55; word-break: keep-all; }
+  .cta-card__cta, .sticky-bar__cta { min-height: 48px; display: flex; align-items: center; justify-content: center; }
   .quote__text, .faq-item summary, .faq-item p, .case__quote { line-height: 1.72; word-break: keep-all; }
   .footer { padding: 36px 20px; }
   .footer__cols { flex-direction: column; gap: 16px; }
@@ -100,6 +121,7 @@
   .sticky-bar__price { font-size: 12px; line-height: 1.35; }
   .sticky-bar__cta { grid-column: 1 / -1; width: 100%; margin-left: 0; padding: 12px 16px; text-align: center; font-size: 14px; border-color: var(--ink); }
 }`;
+
   var style = document.createElement('style');
   style.setAttribute('data-mobile-comfort', 'true');
   style.textContent = css;

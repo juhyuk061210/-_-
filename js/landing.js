@@ -9,6 +9,7 @@
   document.head.appendChild(style);
 
   function setHtml(selector, value) { var node = document.querySelector(selector); if (node) node.innerHTML = value; }
+  function setHref(selector, value) { var node = document.querySelector(selector); if (node) node.setAttribute('href', value); }
   function setAllText(oldText, newHtml) { document.querySelectorAll('body *').forEach(function (node) { if (node.children.length === 0 && node.innerHTML.indexOf(oldText) !== -1) node.innerHTML = node.innerHTML.split(oldText).join(newHtml); }); }
   function sectionFor(selector) { var node = document.querySelector(selector); return node ? node.closest('section') : null; }
   function reorderSections() {
@@ -28,6 +29,10 @@
   }
 
   function applyRequestedCopy() {
+    setHref('.hero-cta--ghost', '#plans');
+    setHref('.hero-cta--primary', '#plans');
+    setHref('.plan--basic .plan__cta', 'https://leadgeny.kr/i/B1j');
+    setHref('.plan--bundle .plan__cta', 'https://leadgeny.kr/i/B1k');
     setHtml('.author__lead', '왜 학교는 자본주의를 가르치지 않을까.<br />그 의도된 침묵을 알아차린 순간,<br />안타까움과 동시에 확신이 들었다.');
     setHtml('.hero-cta--ghost .hero-cta__main', '7,000원 <span class="shipping-note">(배송비만 부담)</span> · 혼자 시작');
     setHtml('.plan--basic .plan__price', '7,000원 <span class="shipping-note">(배송비만 부담)</span>');

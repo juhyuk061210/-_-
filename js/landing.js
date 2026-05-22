@@ -80,3 +80,71 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 })();
+
+// Book-only order bump before checkout.
+(function () {
+  var bookOnlyUrl = 'https://leadgeny.kr/i/B1j';
+  var bundleUrl = 'https://leadgeny.kr/i/B1k';
+
+  function addOrderBumpStyles() {
+    if (document.querySelector('style[data-order-bump]')) return;
+    var style = document.createElement('style');
+    style.setAttribute('data-order-bump', 'true');
+    style.textContent = '.order-bump-open{overflow:hidden}.order-bump-modal[hidden]{display:none}.order-bump-modal{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:rgba(15,15,15,.68)}.order-bump-box{width:min(440px,100%);border:2px solid var(--ink,#171717);border-radius:8px;background:var(--paper,#fffaf0);box-shadow:8px 8px 0 var(--ink,#171717);padding:26px 22px 22px;color:var(--ink,#171717);font-family:var(--font-body,inherit)}.order-bump-kicker{display:inline-flex;margin-bottom:12px;padding:5px 9px;border:1px solid var(--ink,#171717);border-radius:999px;background:#f4c542;font-size:12px;font-weight:900}.order-bump-title{margin:0 0 10px;font-size:26px;line-height:1.22;font-weight:900;letter-spacing:0;word-break:keep-all}.order-bump-copy{margin:0 0 18px;font-size:15px;line-height:1.65;word-break:keep-all}.order-bump-choice{display:flex;gap:12px;align-items:flex-start;margin:0 0 18px;padding:14px;border:2px solid var(--ink,#171717);border-radius:8px;background:#fff}.order-bump-choice input{width:22px;height:22px;margin:2px 0 0;accent-color:#a20f45;flex:0 0 auto}.order-bump-choice strong{display:block;margin-bottom:4px;font-size:15px;line-height:1.35}.order-bump-choice span{display:block;font-size:12px;line-height:1.45;color:#555}.order-bump-submit{width:100%;min-height:52px;border:2px solid var(--ink,#171717);border-radius:8px;background:#a20f45;color:#fff;font-size:16px;font-weight:900;cursor:pointer;box-shadow:4px 4px 0 var(--ink,#171717)}.order-bump-skip{display:block;width:100%;margin-top:12px;border:0;background:transparent;color:#555;font-size:13px;text-decoration:underline;cursor:pointer}.order-bump-close{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}@media(max-width:768px){.order-bump-modal{align-items:end;padding:14px}.order-bump-box{padding:22px 18px 18px;box-shadow:5px 5px 0 var(--ink,#171717)}.order-bump-title{font-size:23px}.order-bump-copy{font-size:14px}.order-bump-submit{font-size:15px}}';
+    document.head.appendChild(style);
+  }
+
+  function ensureModal() {
+    addOrderBumpStyles();
+    var existing = document.querySelector('.order-bump-modal');
+    if (existing) return existing;
+    var modal = document.createElement('div');
+    modal.className = 'order-bump-modal';
+    modal.hidden = true;
+    modal.innerHTML = '<div class="order-bump-box" role="dialog" aria-modal="true" aria-labelledby="orderBumpTitle">' +
+      '<button type="button" class="order-bump-close" data-order-bump-close>닫기</button>' +
+      '<div class="order-bump-kicker">결제 전 마지막 선택</div>' +
+      '<h2 class="order-bump-title" id="orderBumpTitle">잠깐, 책만 받고 끝내시겠어요?</h2>' +
+      '<p class="order-bump-copy">책을 읽고 바로 따라 할 수 있도록 입문 강의까지 함께 준비해두었습니다.</p>' +
+      '<label class="order-bump-choice"><input type="checkbox" data-order-bump-check /><span><strong>네, 책 + 입문 강의까지 함께 시작하겠습니다</strong><span>스마트스토어 세팅, 상품 찾는 법, 광고 전 구조까지 함께 받기</span></span></label>' +
+      '<button type="button" class="order-bump-submit" data-order-bump-submit>선택한 구성으로 결제하기</button>' +
+      '<button type="button" class="order-bump-skip" data-order-bump-skip>아니요, 책만 결제할게요</button>' +
+      '</div>';
+    document.body.appendChild(modal);
+    modal.addEventListener('click', function (event) { if (event.target === modal) closeModal(modal); });
+    modal.querySelector('[data-order-bump-close]').addEventListener('click', function () { closeModal(modal); });
+    modal.querySelector('[data-order-bump-skip]').addEventListener('click', function () { window.location.href = bookOnlyUrl; });
+    modal.querySelector('[data-order-bump-submit]').addEventListener('click', function () {
+      var checked = modal.querySelector('[data-order-bump-check]').checked;
+      window.location.href = checked ? bundleUrl : bookOnlyUrl;
+    });
+    return modal;
+  }
+
+  function closeModal(modal) {
+    modal.hidden = true;
+    document.documentElement.classList.remove('order-bump-open');
+  }
+
+  function openModal(event) {
+    event.preventDefault();
+    var modal = ensureModal();
+    var checkbox = modal.querySelector('[data-order-bump-check]');
+    checkbox.checked = false;
+    modal.hidden = false;
+    document.documentElement.classList.add('order-bump-open');
+    setTimeout(function () { checkbox.focus(); }, 0);
+  }
+
+  function bindBookButtons() {
+    document.querySelectorAll('.plan--basic .plan__cta').forEach(function (button) {
+      if (button.dataset.orderBumpBound === 'true') return;
+      button.dataset.orderBumpBound = 'true';
+      button.addEventListener('click', openModal);
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindBookButtons);
+  else bindBookButtons();
+  setTimeout(bindBookButtons, 500);
+})();

@@ -35,12 +35,12 @@
     setHref('.plan--bundle .plan__cta', 'https://leadgeny.kr/i/B1k');
     setHtml('.hero__hook', '<strong>수능 대신, 사업을 골랐습니다.</strong>');
     setHtml('.author__lead', '왜 학교는 자본주의를 가르치지 않을까.<br />그 의도된 침묵을 알아차린 순간,<br />안타까움과 동시에 확신이 들었다.');
-    setHtml('.hero-cta--ghost .hero-cta__main', '7,000원 <span class="shipping-note">(배송비만 부담)</span> · 혼자 시작');
-    setHtml('.plan--basic .plan__price', '7,000원 <span class="shipping-note">(배송비만 부담)</span>');
+    setHtml('.hero-cta--ghost .hero-cta__main', '7,000원 혼자 시작<span class="shipping-note">(배송비만 부담)</span>');
+    setHtml('.plan--basic .plan__price', '7,000원 혼자 시작<span class="shipping-note">(배송비만 부담)</span>');
     setHtml('.plan--bundle .plan__price', '29,800원 <span class="shipping-note">(무료배송)</span>');
-    setHtml('.cta-card__col--left .cta-card__price', '7,000원 <span class="shipping-note">(배송비만 부담)</span>');
+    setHtml('.cta-card__col--left .cta-card__price', '7,000원 혼자 시작<span class="shipping-note">(배송비만 부담)</span>');
     setHtml('.cta-card__col--right .cta-card__price', '29,800원 <span class="shipping-note">(무료배송)</span>');
-    setHtml('.sticky-bar__price .accent', '7,000원 <span class="shipping-note">(배송비만 부담)</span>');
+    setHtml('.sticky-bar__price .accent', '7,000원 혼자 시작<span class="shipping-note">(배송비만 부담)</span>');
     setHtml('.cta-section__sub', '책은 <strong>7,000원</strong> <span class="shipping-note">(배송비만 부담)</span>으로 받으세요.<br />지금 가장 많이 선택하는 옵션은<br /><strong class="accent">책 + 강의와 함께</strong>입니다.');
     setAllText('책 + 강의 함께', '책 + 강의와 함께');
     setAllText('약 280페이지', '약 238페이지');

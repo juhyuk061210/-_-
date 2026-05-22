@@ -33,6 +33,7 @@
     setHref('.hero-cta--primary', '#plans');
     setHref('.plan--basic .plan__cta', 'https://leadgeny.kr/i/B1j');
     setHref('.plan--bundle .plan__cta', 'https://leadgeny.kr/i/B1k');
+    setHtml('.hero__hook', '<strong>수능 대신, 사업을 골랐습니다.</strong>');
     setHtml('.author__lead', '왜 학교는 자본주의를 가르치지 않을까.<br />그 의도된 침묵을 알아차린 순간,<br />안타까움과 동시에 확신이 들었다.');
     setHtml('.hero-cta--ghost .hero-cta__main', '7,000원 <span class="shipping-note">(배송비만 부담)</span> · 혼자 시작');
     setHtml('.plan--basic .plan__price', '7,000원 <span class="shipping-note">(배송비만 부담)</span>');

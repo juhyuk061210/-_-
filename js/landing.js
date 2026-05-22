@@ -49,7 +49,7 @@
       bundleFeatures.innerHTML = '<li><span class="plan__check">✓</span><span>책 1권 (약 238페이지)</span></li>' +
         '<li><span class="plan__check">✓</span><span class="plan__feat-strong">스마트스토어 및 자사몰 세팅하기</span></li>' +
         '<li><span class="plan__check">✓</span><span class="plan__feat-strong">팔리는 상품 찾는 법</span></li>' +
-        '<li><span class="plan__check">✓</span><span class="plan__feat-strong">일 매출 500만든 광고세팅</span></li>' +
+        '<li><span class="plan__check">✓</span><span class="plan__feat-strong">초보자가 광고 전에 봐야 할 구조</span></li>' +
         '<li><span class="plan__check">✓</span><span>30일 환불 보장</span></li>';
     }
     reorderSections();

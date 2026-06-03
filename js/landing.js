@@ -6,13 +6,13 @@
     function addMetaAdsBenefit() {
       var bundleFeatures = document.querySelector('.plan--bundle .plan__features');
       if (!bundleFeatures || bundleFeatures.innerHTML.indexOf('일 매출 500찍는 메타광고 세팅법') !== -1) return;
-      var marginItem = Array.prototype.find.call(bundleFeatures.querySelectorAll('li'), function (item) {
-        return item.textContent.indexOf('제품 마진 계산기') !== -1;
+      var productListItem = Array.prototype.find.call(bundleFeatures.querySelectorAll('li'), function (item) {
+        return item.textContent.indexOf('일 매출 500찍는 제품 리스트') !== -1;
       });
-      if (!marginItem) return;
+      if (!productListItem) return;
       var item = document.createElement('li');
       item.innerHTML = '<span class="plan__check">✓</span><span class="plan__feat-strong">일 매출 500찍는 메타광고 세팅법</span>';
-      marginItem.after(item);
+      productListItem.after(item);
     }
 
     addMetaAdsBenefit();

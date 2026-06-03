@@ -50,10 +50,10 @@
     var bundleFeatures = document.querySelector('.plan--bundle .plan__features');
     if (bundleFeatures) {
       bundleFeatures.innerHTML = '<li><span class="plan__check">✓</span><span>책 1권 (약 238페이지)</span></li>' +
-        '<li><span class="plan__check">✓</span><span class="plan__feat-strong">스마트스토어 및 자사몰 세팅하기</span></li>' +
-        '<li><span class="plan__check">✓</span><span class="plan__feat-strong">팔리는 상품 찾는 법</span></li>' +
-        '<li><span class="plan__check">✓</span><span class="plan__feat-strong">초보자가 광고 전에 봐야 할 구조</span></li>' +
-        '<li><span class="plan__check">✓</span><span>30일 환불 보장</span></li>';
+        '<li><span class="plan__check">✓</span><span class="plan__feat-strong">일 매출 500찍는 제품 리스트</span></li>' +
+        '<li><span class="plan__check">✓</span><span class="plan__feat-strong">일 매출 100단위 멘토들에게 컨설팅</span></li>' +
+        '<li><span class="plan__check">✓</span><span class="plan__feat-strong">직접 실행하는 사람들과 커뮤니티</span></li>' +
+        '<li><span class="plan__check">✓</span><span>7일 환불 보장</span></li>';
     }
     reorderSections();
   }

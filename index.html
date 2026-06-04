@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TrendScope | Trending Products</title>
     <meta name="description" content="트렌딩 제품 리스트와 멤버 커뮤니티" />
-    <link rel="stylesheet" href="styles.css?v=6" />
-    <style>.view-hidden{display:none!important}</style>
+    <link rel="stylesheet" href="styles.css?v=7" />
+    <style>.view-hidden{display:none!important}.actions button.disabled{cursor:not-allowed;border-color:#e4e8ef;background:#f7f9fb;color:#9aa7b5}</style>
   </head>
   <body>
     <header class="top-nav">
@@ -39,7 +39,7 @@
       </section>
 
       <section class="summary-strip" aria-label="데이터 요약" data-view="products">
-        <div><strong id="totalCount">20</strong><span>Total Products</span></div><div><strong>11</strong><span>Video Sources</span></div><div><strong>84</strong><span>Avg. Score</span></div>
+        <div><strong id="totalCount">20</strong><span>Total Products</span></div><div><strong>3</strong><span>Verified Sources</span></div><div><strong>84</strong><span>Avg. Score</span></div>
       </section>
 
       <section id="products" class="list-wrap" data-view="products">
@@ -71,6 +71,17 @@
     </main>
 
     <footer id="contact"><span>© TrendScope</span><a href="#subscribe" data-view-link="subscribe">Subscribe</a></footer>
-    <script src="app.js?v=6"></script>
+    <script src="app.js?v=7"></script>
+    <script>
+      (function(){
+        const verified={"Spin Sneaker":"https://www.instagram.com/stridesoft_/reels/","Padded Socks":"https://www.instagram.com/shezzasocks/reels/","2-in-1 Dog Water Bottle":"https://www.instagram.com/pawsipus/reels/"};
+        function makeDisabled(){const b=document.createElement('button');b.className='disabled';b.type='button';b.disabled=true;b.textContent='확인 필요';return b}
+        function makeLink(url){const a=document.createElement('a');a.className='primary';a.href=url;a.target='_blank';a.rel='noreferrer';a.textContent='Source';return a}
+        function fixSources(){document.querySelectorAll('.product-card').forEach(card=>{const title=card.querySelector('.card-title')?.textContent?.trim();const actions=card.querySelector('.actions');if(!title||!actions)return;actions.querySelectorAll('a.primary,button.disabled').forEach(el=>el.remove());actions.prepend(verified[title]?makeLink(verified[title]):makeDisabled())})}
+        const list=document.querySelector('#productList');if(list)new MutationObserver(fixSources).observe(list,{childList:true,subtree:false});
+        ['click','input','change'].forEach(type=>document.addEventListener(type,()=>setTimeout(fixSources,0),true));
+        setTimeout(fixSources,0);
+      })();
+    </script>
   </body>
 </html>

@@ -5,31 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TrendScope | Trending Products</title>
     <meta name="description" content="트렌딩 제품 리스트와 멤버 커뮤니티" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css?v=5" />
+    <style>.community-section,.subscribe-section{display:none}.community-section.is-visible,.subscribe-section.is-visible{display:block}</style>
   </head>
   <body>
     <header class="top-nav">
       <div class="nav-inner">
-        <a class="brand" href="#top">TrendScope</a>
+        <a class="brand" href="#products" data-view-link="products">TrendScope</a>
         <nav aria-label="주요 메뉴">
-          <a href="#top">Home</a>
-          <a class="active" href="#products">Trending Products</a>
-          <a href="#community">Community</a>
-          <a href="#subscribe">Subscribe</a>
-          <a href="#contact">Contact</a>
+          <a class="active" href="#products" data-view-link="products">Trending Products</a>
+          <a href="#community" data-view-link="community">Community</a>
+          <a href="#subscribe" data-view-link="subscribe">Subscribe</a>
         </nav>
-        <a class="login" href="#subscribe">JOIN</a>
+        <a class="login" href="#subscribe" data-view-link="subscribe">JOIN</a>
       </div>
     </header>
 
     <main id="top" class="page">
-      <section class="hero">
+      <section class="hero" data-view="products">
         <p class="sub">Only researched products</p>
         <h1>Trending Products</h1>
         <p class="lead">워드파일 제품 리스트를 기반으로 정리한 트렌딩 상품 데이터베이스입니다.</p>
       </section>
 
-      <section class="control-card" aria-label="검색 및 필터">
+      <section class="control-card" aria-label="검색 및 필터" data-view="products">
         <div class="search-row">
           <label>
             <span>Search Product</span>
@@ -52,24 +51,23 @@
         </div>
       </section>
 
-      <section class="summary-strip" aria-label="데이터 요약">
+      <section class="summary-strip" aria-label="데이터 요약" data-view="products">
         <div><strong id="totalCount">20</strong><span>Total Products</span></div>
         <div><strong>11</strong><span>Video Sources</span></div>
         <div><strong>84</strong><span>Avg. Score</span></div>
       </section>
 
-      <section id="products" class="list-wrap">
+      <section id="products" class="list-wrap" data-view="products">
         <div class="list-head"><h2>Product List</h2><span id="visibleCount">20 products</span></div>
         <div id="productList" class="product-list"></div>
       </section>
 
-      <section id="community" class="community-section" aria-label="멤버 커뮤니티">
+      <section id="community" class="community-section" aria-label="멤버 커뮤니티" data-view="community">
         <div class="community-head">
           <p class="sub">Member community</p>
           <h2>멤버들이 제품 소스와 판매 테스트를 공유하는 공간</h2>
-          <p>GitHub 미리보기에서는 서버가 없어서 데모 피드로 표시됩니다. 실제 서버에서는 글쓰기와 저장이 작동합니다.</p>
+          <p>커뮤니티 탭에서만 보이는 멤버 전용 공간입니다. GitHub 미리보기에서는 데모 피드로 표시됩니다.</p>
         </div>
-
         <div class="tier-card">
           <div class="tier-current">
             <span class="tier-badge">Builder</span>
@@ -84,10 +82,9 @@
             <article><span>Month 8+</span><strong>Insider</strong><p>비공개 콜, 고급 케이스 스터디</p></article>
           </div>
         </div>
-
         <div class="community-grid">
           <section class="feed-card">
-            <div class="mini-head"><h3>Community Feed</h3><span id="communityStatus">Live</span></div>
+            <div class="mini-head"><h3>Community Feed</h3><span id="communityStatus">Demo</span></div>
             <form id="communityForm" class="community-form">
               <input id="communityName" maxlength="18" placeholder="닉네임" required />
               <input id="communityTitle" maxlength="60" placeholder="제목" required />
@@ -106,7 +103,7 @@
         </div>
       </section>
 
-      <section id="subscribe" class="subscribe-section" aria-label="월 결제 멤버십">
+      <section id="subscribe" class="subscribe-section" aria-label="월 결제 멤버십" data-view="subscribe">
         <div class="subscribe-head">
           <p class="sub">Monthly membership</p>
           <h2>월 29,800원으로 트렌딩 제품 리스트와 커뮤니티 이용</h2>
@@ -131,7 +128,7 @@
       </section>
     </main>
 
-    <footer id="contact"><span>© TrendScope</span><a href="#subscribe">Subscribe</a></footer>
-    <script src="app.js"></script>
+    <footer id="contact"><span>© TrendScope</span><a href="#subscribe" data-view-link="subscribe">Subscribe</a></footer>
+    <script src="app.js?v=5"></script>
   </body>
 </html>

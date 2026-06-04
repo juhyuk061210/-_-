@@ -12,3 +12,18 @@ function relativeTime(d){const diff=Math.max(0,Date.now()-new Date(d).getTime())
 function renderCommunity(posts){if(!communityFeed)return;communityFeed.innerHTML=posts.map(p=>`<article class="post"><div class="avatar">${esc((p.name||"M").slice(0,1).toUpperCase())}</div><div><strong>${esc(p.title)}</strong><p>${esc(p.message)}</p><span>${esc(p.name)} · ${relativeTime(p.createdAt)}</span></div></article>`).join("")}
 async function loadCommunity(){if(!communityFeed)return;try{const r=await fetch("/api/community");if(!r.ok)throw new Error("no api");renderCommunity(await r.json());communityStatus.textContent="Live"}catch{communityStatus.textContent="Demo";renderCommunity([{name:"K",title:"이번 주 반려동물 제품 소스 공유",message:"릴스 반응 좋은 강아지 물병 제품을 찾았습니다. 경쟁도는 낮고 시연 영상 만들기 쉬워요.",createdAt:new Date().toISOString()},{name:"H",title:"첫 판매 인증",message:"미니 프로젝터 제품으로 상세페이지 테스트 후 첫 주문 들어왔습니다.",createdAt:new Date(Date.now()-3600000).toISOString()}])}}
 if(communityForm){communityForm.addEventListener("submit",async e=>{e.preventDefault();const payload={name:document.querySelector("#communityName").value,title:document.querySelector("#communityTitle").value,message:document.querySelector("#communityMessage").value};try{const r=await fetch("/api/community",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});if(r.ok){communityForm.reset();await loadCommunity();return}}catch{}communityStatus.textContent="Demo only"});loadCommunity();setInterval(loadCommunity,8000)}
+(function(){
+  const style=document.createElement("style");
+  style.textContent=".view-hidden{display:none!important}";
+  document.head.appendChild(style);
+  const views=["products","community","subscribe"];
+  const productSections=[...document.querySelectorAll('[data-view="products"],.hero,.control-card,.summary-strip,.list-wrap')];
+  const communitySections=[...document.querySelectorAll('[data-view="community"],#community')];
+  const subscribeSections=[...document.querySelectorAll('[data-view="subscribe"],#subscribe')];
+  const map={products:productSections,community:communitySections,subscribe:subscribeSections};
+  const links=[...document.querySelectorAll('[data-view-link],a[href="#products"],a[href="#community"],a[href="#subscribe"]')];
+  function sectionView(section){for(const view of views){if((map[view]||[]).includes(section))return view}return"products"}
+  function setView(raw){const view=views.includes(raw)?raw:"products";[...new Set([...productSections,...communitySections,...subscribeSections])].forEach(section=>section.classList.toggle("view-hidden",sectionView(section)!==view));links.forEach(link=>{const href=(link.getAttribute("href")||"").replace("#","");const linkView=link.dataset.viewLink||href;link.classList.toggle("active",linkView===view)});if(location.hash!==`#${view}`)history.replaceState(null,"",`#${view}`)}
+  window.addEventListener("hashchange",()=>setView(location.hash.replace("#","")));
+  setView(location.hash.replace("#","")||"products");
+})();

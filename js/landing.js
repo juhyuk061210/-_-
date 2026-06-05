@@ -24,9 +24,26 @@
       anchor.after(videoSection);
     }
 
+    function renameBundleOffer() {
+      document.querySelectorAll('body *').forEach(function (node) {
+        if (node.children.length !== 0) return;
+        node.innerHTML = node.innerHTML
+          .split('책 + 강의와 함께').join('책 + 2주 실행 챌린지')
+          .split('책 + 강의 함께').join('책 + 2주 실행 챌린지')
+          .split('강의와 함께 시작하기').join('챌린지 함께 시작하기');
+      });
+      var bundleTitle = document.querySelector('.plan--bundle .plan__title');
+      if (bundleTitle) bundleTitle.innerHTML = '책 + 2주 실행 챌린지';
+      var bundleOption = document.querySelector('.plan--bundle .plan__option');
+      if (bundleOption) bundleOption.innerHTML = 'OPTION B · CHALLENGE';
+      var bundleCta = document.querySelector('.plan--bundle .plan__cta');
+      if (bundleCta) bundleCta.innerHTML = '챌린지 함께 시작하기 →';
+    }
+
     function applyTweaks() {
       addMetaAdsBenefit();
       moveAuthorVideoNearTop();
+      renameBundleOffer();
     }
 
     applyTweaks();

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrendScope 결제 주문서</title>
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+    <style>
+      :root {
+        --blue: #2563eb;
+        --ink: #111827;
+        --muted: #667085;
+        --line: #dbe3ef;
+        --bg: #f6f8fb;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, "Noto Sans KR", sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+      }
+
+      header {
+        border-bottom: 1px solid var(--line);
+        background: #fff;
+      }
+
+      .nav, main {
+        width: min(760px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .nav {
+        min-height: 62px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .brand {
+        font-size: 22px;
+        font-weight: 900;
+      }
+
+      .badge {
+        min-height: 28px;
+        display: inline-flex;
+        align-items: center;
+        padding: 0 10px;
+        border-radius: 999px;
+        background: #eff6ff;
+        color: var(--blue);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      main {
+        padding: 34px 0 52px;
+      }
+
+      .headline {
+        margin-bottom: 18px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(28px, 5vw, 42px);
+        line-height: 1.1;
+      }
+
+      .headline p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .order-card {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+      }
+
+      .price-box {
+        padding: 24px;
+        border-bottom: 1px solid var(--line);
+        background: linear-gradient(180deg, #f8fbff, #fff);
+      }
+
+      .price-box span {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--blue);
+        font-size: 12px;
+        font-weight: 900;
+        text-transform: uppercase;
+      }
+
+      .price-box strong {
+        display: block;
+        font-size: 38px;
+        line-height: 1;
+      }
+
+      .price-box small {
+        color: var(--muted);
+        font-size: 16px;
+      }
+
+      .benefits {
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding: 20px 24px;
+        list-style: none;
+        color: #344054;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .benefits li::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        margin-right: 8px;
+        border-radius: 50%;
+        background: #16a34a;
+      }
+
+      .widget-wrap {
+        display: grid;
+        gap: 12px;
+        padding: 0 24px 20px;
+      }
+
+      #payment-method,
+      #agreement {
+        overflow: hidden;
+        border: 1px solid #e6eaf2;
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .buyer-form {
+        display: grid;
+        gap: 10px;
+        padding: 0 24px 24px;
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 900;
+      }
+
+      input {
+        width: 100%;
+        min-height: 44px;
+        padding: 0 12px;
+        border: 1px solid #d7ddea;
+        border-radius: 8px;
+        outline: 0;
+        font-size: 15px;
+      }
+
+      button {
+        min-height: 50px;
+        border: 1px solid var(--blue);
+        border-radius: 8px;
+        background: var(--blue);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+
+      button:disabled {
+        border-color: #cbd5e1;
+        background: #cbd5e1;
+        cursor: wait;
+      }
+
+      #paymentStatus {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="nav">
+        <div class="brand">TrendScope</div>
+        <span class="badge">Toss Payments Test</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="headline">
+        <h1>TrendScope 월 멤버십 주문서</h1>
+        <p>토스페이먼츠 계약 심사용 테스트 결제 페이지입니다. 실제 결제 승인 처리는 아직 연결하지 않았습니다.</p>
+      </section>
+
+      <section class="order-card" aria-label="월 멤버십 주문서">
+        <div class="price-box">
+          <span>Monthly membership</span>
+          <strong>29,800원 <small>/ 월</small></strong>
+        </div>
+
+        <ul class="benefits">
+          <li>트렌딩 제품 리스트 전체 열람</li>
+          <li>원본 소스 링크 및 커뮤니티 접근</li>
+          <li>월 단위 멤버십 이용</li>
+        </ul>
+
+        <div class="widget-wrap" aria-label="토스페이먼츠 결제 위젯">
+          <div id="payment-method"></div>
+          <div id="agreement"></div>
+        </div>
+
+        <form class="buyer-form" id="orderForm">
+          <label>이메일<input id="orderEmail" type="email" placeholder="reviewer@example.com" autocomplete="email" /></label>
+          <label>이름<input id="orderName" type="text" maxlength="28" placeholder="심사위원" autocomplete="name" /></label>
+          <button id="paymentButton" type="submit" disabled>29,800원 결제하기</button>
+          <p id="paymentStatus">토스 테스트 결제창을 준비하는 중입니다.</p>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      const tossClientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+      const orderForm = document.querySelector("#orderForm");
+      const paymentButton = document.querySelector("#paymentButton");
+      const paymentStatus = document.querySelector("#paymentStatus");
+      const orderEmail = document.querySelector("#orderEmail");
+      const orderName = document.querySelector("#orderName");
+      let paymentWidgets = null;
+
+      function setPaymentStatus(message) {
+        paymentStatus.textContent = message;
+      }
+
+      function createPaymentOrderId() {
+        return `trendscope-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+      }
+
+      function pageUrl(path) {
+        return new URL(path, window.location.href).href;
+      }
+
+      async function setupPaymentWidget() {
+        try {
+          if (!window.TossPayments) throw new Error("Toss SDK unavailable");
+
+          const tossPayments = TossPayments(tossClientKey);
+          paymentWidgets = tossPayments.widgets({
+            customerKey: TossPayments.ANONYMOUS,
+          });
+
+          await paymentWidgets.setAmount({
+            currency: "KRW",
+            value: 29800,
+          });
+
+          await paymentWidgets.renderPaymentMethods({
+            selector: "#payment-method",
+            variantKey: "DEFAULT",
+          });
+
+          await paymentWidgets.renderAgreement({
+            selector: "#agreement",
+          });
+
+          paymentButton.disabled = false;
+          setPaymentStatus("심사용 테스트 결제창입니다. 실제 승인 처리는 연결하지 않았습니다.");
+        } catch (error) {
+          console.error(error);
+          setPaymentStatus("토스 결제 위젯을 불러오지 못했습니다. 새로고침 후 다시 확인해주세요.");
+        }
+      }
+
+      orderForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!paymentWidgets) {
+          setPaymentStatus("결제 위젯 준비 중입니다. 잠시 후 다시 눌러주세요.");
+          return;
+        }
+
+        try {
+          setPaymentStatus("토스 결제창을 여는 중입니다.");
+          await paymentWidgets.requestPayment({
+            orderId: createPaymentOrderId(),
+            orderName: "TrendScope 월 멤버십",
+            successUrl: pageUrl("success.html"),
+            failUrl: pageUrl("fail.html"),
+            customerEmail: orderEmail.value.trim() || "reviewer@example.com",
+            customerName: orderName.value.trim() || "심사위원",
+          });
+        } catch (error) {
+          console.error(error);
+          setPaymentStatus("결제창 호출이 취소되었거나 실패했습니다.");
+        }
+      });
+
+      setupPaymentWidget();
+    </script>
+  </body>
+</html>

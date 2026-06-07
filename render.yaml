@@ -12,6 +12,16 @@ services:
         value: 0.0.0.0
       - key: NODE_ENV
         value: production
+      - key: BASE_URL
+        value: https://trendscope-community.onrender.com
+      - key: FRONTEND_URL
+        value: https://juhyuk061210.github.io/-_-/
+      - key: CORS_ORIGINS
+        value: https://juhyuk061210.github.io
+      - key: SESSION_COOKIE_SAMESITE
+        value: None
+      - key: SESSION_COOKIE_SECURE
+        value: "true"
       - key: ADMIN_BYPASS
         value: "false"
       - key: MAX_CONNECTIONS

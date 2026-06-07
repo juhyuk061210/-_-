@@ -34,6 +34,18 @@ services:
         sync: false
       - key: NAVER_REDIRECT_URI
         value: https://trendscope-community.onrender.com/api/auth/naver/callback
+      - key: TOSS_BILLING_CLIENT_KEY
+        sync: false
+      - key: TOSS_BILLING_SECRET_KEY
+        sync: false
+      - key: BILLING_CRON_SECRET
+        sync: false
+      - key: MEMBERSHIP_AMOUNT
+        value: "29800"
+      - key: MEMBERSHIP_CURRENCY
+        value: KRW
+      - key: MEMBERSHIP_ORDER_NAME
+        value: TrendScope Membership
       - key: ADMIN_BYPASS
         value: "false"
       - key: MAX_CONNECTIONS

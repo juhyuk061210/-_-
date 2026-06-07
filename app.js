@@ -40,6 +40,7 @@ const products = [
 
 let activeCategory = "all";
 let currentUser = null;
+let billingConfig = null;
 
 function apiBaseUrl() {
   const configured =
@@ -125,6 +126,11 @@ function setAuthMessage(message) {
   if (status) status.textContent = message;
 }
 
+function setPaymentStatus(message) {
+  const status = $("#paymentStatus");
+  if (status) status.textContent = message;
+}
+
 function renderAuthState(user) {
   currentUser = user;
   const isLoggedIn = Boolean(user);
@@ -148,6 +154,57 @@ function renderAuthState(user) {
   if (email) email.textContent = user.email || "로그인됨";
 }
 
+async function loadBillingConfig() {
+  if (!apiBaseUrl()) return null;
+  const response = await fetch(apiUrl("/api/billing/config"), { credentials: "include" });
+  if (!response.ok) throw new Error("billing config failed");
+  billingConfig = await response.json();
+  return billingConfig;
+}
+
+async function startBillingAuth() {
+  if (!currentUser) {
+    openLogin();
+    setPaymentStatus("먼저 Google 또는 Naver로 로그인해 주세요.");
+    return;
+  }
+
+  if (!window.TossPayments) {
+    setPaymentStatus("토스페이먼츠 SDK를 불러오지 못했습니다.");
+    return;
+  }
+
+  const config = billingConfig || (await loadBillingConfig());
+  if (!config?.enabled || !config.clientKey) {
+    setPaymentStatus("Render에 토스 자동결제 클라이언트 키를 먼저 설정해야 합니다.");
+    return;
+  }
+
+  if (!config.customerKey) {
+    setPaymentStatus("로그인 정보를 확인한 뒤 다시 시도해 주세요.");
+    return;
+  }
+
+  const button = $("#paymentButton");
+  if (button) button.disabled = true;
+  setPaymentStatus("토스 자동결제 카드 등록창을 여는 중입니다.");
+
+  try {
+    const tossPayments = TossPayments(config.clientKey);
+    const payment = tossPayments.payment({ customerKey: config.customerKey });
+    await payment.requestBillingAuth({
+      method: "CARD",
+      successUrl: new URL("success.html", location.href).href,
+      failUrl: new URL("fail.html", location.href).href,
+      customerEmail: currentUser.email || $("#orderEmail")?.value || "",
+      customerName: $("#orderName")?.value || currentUser.name || "",
+    });
+  } catch (error) {
+    setPaymentStatus(error.message || "카드 등록창을 열지 못했습니다.");
+    if (button) button.disabled = false;
+  }
+}
+
 async function loadAuthState() {
   if (!apiBaseUrl() && location.hostname.endsWith("github.io")) {
     setAuthMessage("API 설정 필요");
@@ -160,6 +217,9 @@ async function loadAuthState() {
     const data = await response.json();
     renderAuthState(data.authenticated ? data.user : null);
     setAuthMessage(data.authenticated ? "Logged in" : "Live");
+    if (data.authenticated) {
+      loadBillingConfig().catch(() => setPaymentStatus("토스 결제 설정을 아직 불러오지 못했습니다."));
+    }
   } catch {
     renderAuthState(null);
     setAuthMessage("Server offline");
@@ -187,6 +247,10 @@ $$("[data-category]").forEach((button) => {
 $("#searchInput")?.addEventListener("input", renderProducts);
 $("#sortSelect")?.addEventListener("change", renderProducts);
 $("#openLoginModal")?.addEventListener("click", openLogin);
+$("#orderForm")?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  startBillingAuth();
+});
 $$("[data-auth-provider]").forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();

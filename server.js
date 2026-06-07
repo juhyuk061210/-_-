@@ -31,6 +31,42 @@ const mimeTypes = {
   ".svg": "image/svg+xml",
 };
 
+function frontendUrl() {
+  return process.env.FRONTEND_URL || "https://juhyuk061210.github.io/-_-/";
+}
+
+function originFromUrl(value) {
+  try {
+    return new URL(value).origin;
+  } catch {
+    return "";
+  }
+}
+
+function allowedCorsOrigins() {
+  const configured = String(process.env.CORS_ORIGINS || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+  return new Set([
+    originFromUrl(frontendUrl()),
+    originFromUrl(baseUrl()),
+    "http://127.0.0.1:4174",
+    "http://localhost:4174",
+    ...configured,
+  ].filter(Boolean));
+}
+
+function applyCors(req, res) {
+  const origin = req.headers.origin;
+  if (!origin || !allowedCorsOrigins().has(origin)) return;
+  res.setHeader("Access-Control-Allow-Origin", origin);
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PATCH,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Vary", "Origin");
+}
+
 async function loadDotEnv() {
   try {
     const raw = await fs.readFile(path.join(root, ".env"), "utf8");
@@ -40,7 +76,7 @@ async function loadDotEnv() {
       const index = trimmed.indexOf("=");
       if (index === -1) return;
       const key = trimmed.slice(0, index).trim();
-      const value = trimmed.slice(index + 1).trim().replace(/^['"]|['"]$/g, "");
+      const value = trimmed.slice(index + 1).trim().replace(/^["']|["']$/g, "");
       if (key && process.env[key] === undefined) process.env[key] = value;
     });
   } catch {
@@ -123,6 +159,15 @@ function serializeCookie(name, value, options = {}) {
   parts.push(`SameSite=${options.sameSite || "Lax"}`);
   if (options.secure) parts.push("Secure");
   return parts.join("; ");
+}
+
+function sessionCookieOptions(options = {}) {
+  const sameSite = process.env.SESSION_COOKIE_SAMESITE || (originFromUrl(frontendUrl()) !== originFromUrl(baseUrl()) ? "None" : "Lax");
+  const secure =
+    process.env.SESSION_COOKIE_SECURE === "true" ||
+    sameSite.toLowerCase() === "none" ||
+    baseUrl().startsWith("https://");
+  return { ...options, sameSite, secure };
 }
 
 function parseCookies(req) {
@@ -569,9 +614,9 @@ async function handleOAuthCallback(provider, req, res, url) {
   const user = await upsertOAuthUser(profile);
   const session = await createSession(user.id);
   const clearState = serializeCookie(`oauth_state_${provider}`, "", { maxAge: 0 });
-  const sessionHeader = serializeCookie(sessionCookie, session.token, { maxAge: sessionMaxAgeSeconds });
+  const sessionHeader = serializeCookie(sessionCookie, session.token, sessionCookieOptions({ maxAge: sessionMaxAgeSeconds }));
 
-  redirect(res, "/#community", { "Set-Cookie": [sessionHeader, clearState] });
+  redirect(res, `${frontendUrl()}#community`, { "Set-Cookie": [sessionHeader, clearState] });
 }
 
 async function handleApi(req, res, url) {
@@ -588,14 +633,14 @@ async function handleApi(req, res, url) {
       res,
       200,
       { authenticated: true, user: publicUser(user) },
-      { "Set-Cookie": serializeCookie(sessionCookie, session.token, { maxAge: sessionMaxAgeSeconds }) },
+      { "Set-Cookie": serializeCookie(sessionCookie, session.token, sessionCookieOptions({ maxAge: sessionMaxAgeSeconds })) },
     );
     return;
   }
 
   if (url.pathname === "/api/auth/logout" && req.method === "POST") {
     await destroySession(req);
-    sendJson(res, 200, { ok: true }, { "Set-Cookie": serializeCookie(sessionCookie, "", { maxAge: 0 }) });
+    sendJson(res, 200, { ok: true }, { "Set-Cookie": serializeCookie(sessionCookie, "", sessionCookieOptions({ maxAge: 0 })) });
     return;
   }
 
@@ -894,6 +939,13 @@ async function start() {
 
   const server = http.createServer(async (req, res) => {
     try {
+      applyCors(req, res);
+      if (req.method === "OPTIONS") {
+        res.writeHead(204);
+        res.end();
+        return;
+      }
+
       const url = new URL(req.url, baseUrl());
       if (url.pathname.startsWith("/api/")) {
         if (url.pathname === "/api/health" && req.method === "GET") {

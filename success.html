@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>결제 성공 | TrendScope</title>
+    <title>구독 처리 중 | TrendScope</title>
+    <meta name="trendscope-api-base" content="https://trendscope-community.onrender.com" />
     <style>
       body {
         margin: 0;
@@ -16,7 +17,7 @@
       }
 
       main {
-        width: min(420px, calc(100% - 32px));
+        width: min(460px, calc(100% - 32px));
         padding: 32px;
         border: 1px solid #dbe3ef;
         border-radius: 10px;
@@ -32,9 +33,45 @@
   </head>
   <body>
     <main>
-      <h1>결제 성공</h1>
-      <p>심사용 리다이렉트 페이지입니다. 실제 승인 검증은 추후 백엔드에서 연결합니다.</p>
-      <a href="/#subscribe">주문서로 돌아가기</a>
+      <h1 id="title">구독 처리 중</h1>
+      <p id="message">카드 등록을 확인하고 첫 달 결제를 진행하고 있습니다.</p>
+      <a href="./#subscribe">TrendScope로 돌아가기</a>
     </main>
+    <script>
+      const apiBase = document.querySelector('meta[name="trendscope-api-base"]').content.replace(/\/+$/, "");
+      const params = new URLSearchParams(location.search);
+      const title = document.querySelector("#title");
+      const message = document.querySelector("#message");
+
+      async function confirmBilling() {
+        const authKey = params.get("authKey");
+        const customerKey = params.get("customerKey");
+
+        if (!authKey || !customerKey) {
+          title.textContent = "구독 처리 실패";
+          message.textContent = "토스에서 필요한 인증 정보가 전달되지 않았습니다.";
+          return;
+        }
+
+        try {
+          const response = await fetch(`${apiBase}/api/billing/issue`, {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ authKey, customerKey }),
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || "구독 승인에 실패했습니다.");
+
+          title.textContent = "구독이 시작되었습니다";
+          message.textContent = "첫 달 결제가 완료되었고 멤버십 권한이 열렸습니다.";
+        } catch (error) {
+          title.textContent = "구독 처리 실패";
+          message.textContent = error.message || "구독 승인 중 문제가 발생했습니다.";
+        }
+      }
+
+      confirmBilling();
+    </script>
   </body>
 </html>

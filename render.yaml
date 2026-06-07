@@ -22,6 +22,18 @@ services:
         value: None
       - key: SESSION_COOKIE_SECURE
         value: "true"
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        value: https://trendscope-community.onrender.com/api/auth/google/callback
+      - key: NAVER_CLIENT_ID
+        sync: false
+      - key: NAVER_CLIENT_SECRET
+        sync: false
+      - key: NAVER_REDIRECT_URI
+        value: https://trendscope-community.onrender.com/api/auth/naver/callback
       - key: ADMIN_BYPASS
         value: "false"
       - key: MAX_CONNECTIONS

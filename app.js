@@ -39,6 +39,21 @@ const products = [
 });
 
 let activeCategory = "all";
+let currentUser = null;
+
+function apiBaseUrl() {
+  const configured =
+    window.TRENDSCOPE_API_BASE ||
+    document.querySelector('meta[name="trendscope-api-base"]')?.content ||
+    localStorage.getItem("trendscopeApiBase") ||
+    "";
+  return configured.replace(/\/+$/, "");
+}
+
+function apiUrl(path) {
+  const base = apiBaseUrl();
+  return `${base}${path}`;
+}
 
 function $(selector) {
   return document.querySelector(selector);
@@ -101,6 +116,65 @@ function closeLogin() {
   $("#loginModal")?.classList.add("is-hidden");
 }
 
+function avatarText(user) {
+  return escapeHtml((user?.name || user?.email || "M").slice(0, 1).toUpperCase());
+}
+
+function setAuthMessage(message) {
+  const status = $("#communityStatus");
+  if (status) status.textContent = message;
+}
+
+function renderAuthState(user) {
+  currentUser = user;
+  const isLoggedIn = Boolean(user);
+  $("#authPanel")?.classList.toggle("is-hidden", isLoggedIn);
+  $("#userPanel")?.classList.toggle("is-hidden", !isLoggedIn);
+  $("#communityForm")?.classList.toggle("is-hidden", !isLoggedIn);
+
+  if (!user) return;
+
+  const avatar = $("#currentUserAvatar");
+  if (avatar) {
+    avatar.innerHTML = user.profileImage
+      ? `<img src="${escapeHtml(user.profileImage)}" alt="" />`
+      : avatarText(user);
+  }
+
+  const name = $("#currentUserName");
+  if (name) name.textContent = user.name || "Member";
+
+  const email = $("#currentUserEmail");
+  if (email) email.textContent = user.email || "로그인됨";
+}
+
+async function loadAuthState() {
+  if (!apiBaseUrl() && location.hostname.endsWith("github.io")) {
+    setAuthMessage("API 설정 필요");
+    return;
+  }
+
+  try {
+    const response = await fetch(apiUrl("/api/auth/me"), { credentials: "include" });
+    if (!response.ok) throw new Error("auth check failed");
+    const data = await response.json();
+    renderAuthState(data.authenticated ? data.user : null);
+    setAuthMessage(data.authenticated ? "Logged in" : "Live");
+  } catch {
+    renderAuthState(null);
+    setAuthMessage("Server offline");
+  }
+}
+
+function startOAuth(provider) {
+  const base = apiBaseUrl();
+  if (!base) {
+    alert("로그인 서버 주소가 아직 설정되지 않았습니다.");
+    return;
+  }
+  location.href = apiUrl(`/api/auth/${provider}/start`);
+}
+
 $$("[data-category]").forEach((button) => {
   button.addEventListener("click", () => {
     $$("[data-category]").forEach((item) => item.classList.remove("active"));
@@ -113,12 +187,35 @@ $$("[data-category]").forEach((button) => {
 $("#searchInput")?.addEventListener("input", renderProducts);
 $("#sortSelect")?.addEventListener("change", renderProducts);
 $("#openLoginModal")?.addEventListener("click", openLogin);
-$("#demoAdminButton")?.addEventListener("click", () => {
-  closeLogin();
-  location.hash = "#community";
+$$("[data-auth-provider]").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    startOAuth(link.dataset.authProvider);
+  });
+});
+$("#demoAdminButton")?.addEventListener("click", async () => {
+  try {
+    const response = await fetch(apiUrl("/api/auth/demo-admin"), { method: "POST", credentials: "include" });
+    if (!response.ok) throw new Error("demo login failed");
+    const data = await response.json();
+    renderAuthState(data.user);
+    closeLogin();
+    location.hash = "#community";
+  } catch {
+    alert("관리자 데모 로그인은 서버가 켜져 있어야 사용할 수 있습니다.");
+  }
+});
+$("#logoutButton")?.addEventListener("click", async () => {
+  try {
+    await fetch(apiUrl("/api/auth/logout"), { method: "POST", credentials: "include" });
+  } finally {
+    renderAuthState(null);
+    setAuthMessage("Live");
+  }
 });
 $$("[data-close-modal]").forEach((button) => button.addEventListener("click", closeLogin));
 window.addEventListener("hashchange", () => setView(location.hash.replace("#", "")));
 
 renderProducts();
 setView(location.hash.replace("#", ""));
+loadAuthState();

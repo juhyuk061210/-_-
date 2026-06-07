@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>TrendScope | Trending Products</title>
     <meta name="description" content="트렌딩 제품 리스트와 멤버 커뮤니티" />
+    <meta name="trendscope-api-base" content="https://trendscope-community.onrender.com" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -103,8 +104,8 @@
               <strong>로그인 후 커뮤니티에 참여할 수 있습니다.</strong>
               <p>구글 또는 네이버 계정으로 로그인하면 게시글을 작성할 수 있습니다.</p>
               <div class="auth-actions">
-                <a href="/api/auth/google/start">Google 로그인</a>
-                <a href="/api/auth/naver/start">Naver 로그인</a>
+                <a href="#" data-auth-provider="google">Google 로그인</a>
+                <a href="#" data-auth-provider="naver">Naver 로그인</a>
               </div>
             </div>
             <div id="userPanel" class="auth-panel user-panel is-hidden">
@@ -191,8 +192,8 @@
         <h2 id="loginModalTitle">커뮤니티 로그인</h2>
         <p>구글 또는 네이버 계정으로 로그인하면 커뮤니티에 참여할 수 있습니다. 지금 로컬 버전에서는 관리자 데모로 바로 참여할 수 있습니다.</p>
         <div class="modal-actions">
-          <a href="/api/auth/google/start">Google로 계속하기</a>
-          <a href="/api/auth/naver/start">Naver로 계속하기</a>
+          <a href="#" data-auth-provider="google">Google로 계속하기</a>
+          <a href="#" data-auth-provider="naver">Naver로 계속하기</a>
           <button id="demoAdminButton" type="button">관리자로 바로 입장</button>
         </div>
       </section>

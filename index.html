@@ -1,24 +1,221 @@
 <!doctype html>
 <html lang="ko">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TrendScope</title>
-<style>
-:root{--bg:#f4f6f9;--paper:#fff;--ink:#101828;--muted:#667085;--line:#d9e4ff;--blue:#2563eb;--green:#16a34a;--black:#0b1220;--yellow:#facc15;--orange:#f97316}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,"Noto Sans KR",sans-serif}a{text-decoration:none;color:inherit}button,input,select,textarea{font:inherit}.is-hidden{display:none!important}.top-nav{position:sticky;top:0;z-index:20;border-bottom:1px solid #e6eaf2;background:rgba(255,255,255,.96);backdrop-filter:blur(12px)}.nav-inner{width:min(1060px,calc(100% - 28px));min-height:58px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{font-size:22px;font-weight:950}.top-nav nav{display:flex;gap:20px;color:#4b5563;font-size:14px;font-weight:850}.top-nav nav a.active{color:var(--blue)}.join{min-height:34px;display:inline-flex;align-items:center;padding:0 14px;border-radius:6px;background:var(--black);color:#fff;font-size:12px;font-weight:900}.page,footer{width:min(1060px,calc(100% - 28px));margin:0 auto}.page{padding:30px 0 48px}.view{padding:18px 0 42px}.sub{margin:0 0 8px;color:var(--blue);text-transform:uppercase;font-size:12px;font-weight:900}h1,h2,h3,p{margin-top:0}h1{margin-bottom:10px;font-size:clamp(34px,6vw,56px);line-height:1.04}.lead{max-width:700px;color:var(--muted);font-size:16px;line-height:1.65}.control,.summary,.card,.panel,.pricing,.login-card,.composer,.modal-panel{border:1px solid var(--line);border-radius:8px;background:var(--paper);box-shadow:0 8px 22px rgba(15,23,42,.05)}.control{padding:14px;margin-bottom:12px}.search-row{display:grid;grid-template-columns:1fr 140px;gap:10px;align-items:end}.search-row label,.login-card label,.composer label,.profile-form label{display:grid;gap:6px}.search-row span,.login-card span,.composer span,.profile-form span{color:var(--muted);font-size:11px;font-weight:900;text-transform:uppercase}input,select,textarea{width:100%;border:1px solid #d7ddea;border-radius:6px;background:#fff;color:var(--ink);outline:0}.search-row input,.search-row select,input{min-height:38px;padding:0 11px;font-size:13px}textarea{min-height:92px;padding:10px 11px;resize:vertical;line-height:1.5}.filter-row,.sort-tabs{display:flex;gap:6px;margin-top:10px;overflow-x:auto}.filter-row button,.sort-tabs button{min-height:30px;padding:0 11px;border:1px solid #d7ddea;border-radius:6px;background:#fff;color:#475467;font-size:12px;font-weight:850;cursor:pointer}.filter-row button.active,.sort-tabs button.active{border-color:var(--blue);background:var(--blue);color:#fff}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;overflow:hidden;margin-bottom:16px;background:#edf2ff}.summary div{padding:14px;background:#fff;text-align:center}.summary strong{display:block;font-size:24px}.summary span{display:block;margin-top:5px;color:var(--muted);font-size:11px;font-weight:800}.list-head{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 12px}.list-head h2{margin:0;font-size:20px}.list-head span{color:var(--blue);font-size:13px;font-weight:900}.product-list{display:grid;grid-template-columns:1fr;gap:12px}.card{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;padding:12px}.thumb{position:relative;width:150px;height:150px;overflow:hidden;border:1px solid #eef1f6;border-radius:6px;background:#fff}.thumb img{width:100%;height:100%;display:block;object-fit:contain}.rank{position:absolute;top:7px;left:7px;min-width:30px;min-height:22px;display:inline-flex;align-items:center;justify-content:center;border-radius:4px;background:rgba(11,18,32,.86);color:#fff;font-size:10px;font-weight:900}.card-title{margin:0;font-size:18px}.card-top{display:flex;align-items:start;justify-content:space-between;gap:8px;margin-bottom:6px}.score{min-width:42px;min-height:27px;display:inline-flex;align-items:center;justify-content:center;border-radius:5px;background:#ecfdf3;color:var(--green);font-size:13px;font-weight:950}.desc{margin:0 0 9px;color:#667085;font-size:13px;line-height:1.5}.pill-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px}.pill{min-height:23px;display:inline-flex;align-items:center;padding:0 8px;border-radius:4px;background:var(--black);color:#fff;font-size:10px;font-weight:900}.metric{display:grid;grid-template-columns:58px 1fr 34px;align-items:center;gap:7px;margin-bottom:5px;color:#475467;font-size:11px;font-weight:800}.bar{height:6px;overflow:hidden;border-radius:999px;background:#edf2f7}.bar span{display:block;height:100%;border-radius:inherit;background:var(--green)}.bar.yellow span{background:var(--yellow)}.bar.orange span{background:var(--orange)}.actions{display:flex;gap:7px}.actions a,.actions button{min-height:28px;display:inline-flex;align-items:center;justify-content:center;padding:0 10px;border-radius:5px;border:1px solid #d7ddea;background:#fff;color:var(--blue);font-size:11px;font-weight:900}.actions a.primary{border-color:var(--blue);background:var(--blue);color:#fff}.section-head{text-align:center;margin-bottom:16px}.section-head h2{margin:0 auto 8px;font-size:32px}.section-head p{margin:0 auto;color:var(--muted);line-height:1.6}.level{padding:18px;margin-bottom:14px;border-radius:8px;background:var(--black);color:#fff}.level span{display:inline-flex;min-height:26px;align-items:center;padding:0 10px;border-radius:999px;background:var(--blue);font-size:11px;font-weight:950;text-transform:uppercase}.level strong{display:block;margin-top:10px;font-size:24px}.level p{margin:6px 0 12px;color:#cbd5e1;font-size:13px}.progress{height:9px;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.16)}.progress i{display:block;width:46%;height:100%;background:var(--green)}.community-grid{display:grid;grid-template-columns:1.55fr .75fr;gap:12px}.panel,.login-card,.composer{padding:16px}.composer{margin-bottom:12px}.form-grid{display:grid;gap:10px}.form-actions{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}.primary-btn,.ghost-btn{min-height:38px;padding:0 14px;border-radius:6px;font-weight:950;cursor:pointer}.primary-btn{border:1px solid var(--blue);background:var(--blue);color:#fff}.ghost-btn{border:1px solid #d7ddea;background:#fff;color:var(--blue)}.status{color:var(--muted);font-size:12px;line-height:1.45}.mini-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.mini-head h3{margin:0}.mini-head span{min-height:22px;display:inline-flex;align-items:center;padding:0 8px;border-radius:999px;background:#ecfdf3;color:var(--green);font-size:10px;font-weight:950}.post{display:grid;grid-template-columns:42px 1fr;gap:11px;padding:14px 0;border-top:1px solid #edf2f7}.post:first-of-type{border-top:0}.avatar{width:42px;height:42px;display:grid;place-items:center;border:1px solid #e6eaf2;border-radius:50%;background:#fff;color:#111827;font-weight:950;overflow:hidden;cursor:pointer}.avatar img{width:100%;height:100%;object-fit:cover}.avatar.large{width:74px;height:74px;font-size:24px}.post-meta{display:flex;align-items:center;gap:8px;margin-bottom:5px}.post-meta strong{font-weight:950}.post-meta span{color:var(--muted);font-size:12px}.post h4{margin:0 0 6px;font-size:17px}.post p{margin:0 0 8px;color:var(--muted);font-size:14px;line-height:1.55}.post-actions{display:flex;gap:7px;flex-wrap:wrap}.post-actions button{min-height:30px;padding:0 10px;border:1px solid #d7ddea;border-radius:999px;background:#fff;color:#344054;font-size:12px;font-weight:900}.post-actions button.liked{border-color:#bcd3ff;background:#eff6ff;color:var(--blue)}.comment-box{margin-top:10px;padding-top:10px;border-top:1px solid #edf2f7}.comment{display:grid;grid-template-columns:30px 1fr;gap:8px;margin-top:10px}.comment .avatar{width:30px;height:30px;font-size:12px}.comment strong{font-size:13px}.comment p{font-size:13px;margin-bottom:4px}.comment-form{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px}.comment-form input{min-height:36px}.profile-summary{display:flex;align-items:center;gap:10px;width:100%;padding:0;border:0;background:transparent;text-align:left;cursor:pointer}.profile-summary strong{display:block}.profile-summary p{margin:2px 0 0;color:var(--muted);font-size:12px}.pricing,.login-card{max-width:620px;margin:0 auto 14px}.pricing{overflow:hidden;border-color:var(--blue)}.price{padding:22px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#f8fbff,#fff)}.price span{display:block;margin-bottom:8px;color:var(--blue);font-size:12px;font-weight:950;text-transform:uppercase}.price strong{display:block;font-size:40px}.price small{margin-left:4px;color:var(--muted);font-size:15px}.benefits{display:grid;gap:9px;margin:0;padding:20px 22px;list-style:none}.benefits li{position:relative;padding-left:22px;color:#344054;font-size:14px;font-weight:750}.benefits li:before{content:"";position:absolute;left:0;top:4px;width:13px;height:13px;border-radius:50%;background:var(--green)}.pay-note{margin:0 22px 16px;padding:13px;border:1px solid #e6eaf2;border-radius:6px;background:#f8fafc;color:var(--muted);font-size:12px;line-height:1.5}.pay-button{margin:0 22px 22px;min-height:46px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:var(--blue);color:#fff;font-weight:950}.company{display:grid;gap:4px;padding:18px 0;border-top:1px solid #e6eaf2;color:var(--muted);font-size:12px}.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:18px}.modal-backdrop{position:absolute;inset:0;background:rgba(15,23,42,.42)}.modal-panel{position:relative;z-index:1;width:min(560px,100%);max-height:min(760px,calc(100vh - 36px));overflow:auto;padding:24px}.modal-close{position:absolute;top:14px;right:14px;width:38px;height:38px;border:1px solid #d7ddea;border-radius:50%;background:#fff;font-size:24px;cursor:pointer}.profile-card{display:grid;grid-template-columns:76px 1fr;gap:14px;align-items:start;margin:10px 0 16px}.profile-card strong{display:block;font-size:22px}.profile-card span{display:block;margin:4px 0;color:var(--blue);font-size:12px;font-weight:900}.profile-card p{color:var(--muted);line-height:1.5}.profile-form{display:grid;gap:10px;margin-top:14px}.profile-form button{min-height:42px;border:1px solid var(--blue);border-radius:6px;background:var(--blue);color:#fff;font-weight:950}.image-picker{display:inline-flex!important;width:max-content;min-height:34px;align-items:center;padding:0 12px;border:1px solid #d7ddea;border-radius:999px;background:#fff;color:#344054;font-weight:900;cursor:pointer}.image-picker input{display:none}.profile-tabs{display:flex;gap:8px;margin:14px 0}.profile-tabs button{min-height:34px;padding:0 12px;border:1px solid #d7ddea;border-radius:999px;background:#fff;color:#344054;font-weight:900}.profile-tabs button.active{border-color:var(--blue);background:#eff6ff;color:var(--blue)}.profile-activity-card,.profile-empty{padding:12px;border:1px solid #edf2f7;border-radius:8px;background:#f8fafc;margin-top:8px}.profile-activity-card strong{display:block}.profile-activity-card p,.profile-empty{color:var(--muted);font-size:13px;line-height:1.5}.notice{padding:12px;border:1px solid #e6eaf2;border-radius:8px;background:#f8fafc;color:#667085;font-size:12px;line-height:1.5}@media(max-width:760px){.nav-inner{display:grid;grid-template-columns:1fr auto}.top-nav nav{grid-column:1/-1;overflow-x:auto;padding-bottom:10px}.search-row,.community-grid{grid-template-columns:1fr}.card{grid-template-columns:112px 1fr}.thumb{width:112px;height:112px}.summary{grid-template-columns:repeat(3,1fr)}}
-</style>
-</head>
-<body>
-<header class="top-nav"><div class="nav-inner"><a class="brand" href="#products" data-view-link="products">TrendScope</a><nav><a class="active" href="#products" data-view-link="products">상위 상품들</a><a href="#community" data-view-link="community">커뮤니티</a><a href="#subscribe" data-view-link="subscribe">결제</a></nav><a class="join" href="#community" data-view-link="community">JOIN</a></div></header>
-<main class="page">
-<section id="products" class="view" data-view="products"><div><p class="sub">Only researched products</p><h1>상위 상품들</h1><p class="lead">워드파일 제품 리스트를 기반으로 정리한 트렌딩 상품 대시보드입니다. 이 화면에는 제품 리스트만 표시됩니다.</p></div><section class="control"><div class="search-row"><label><span>Search Product</span><input id="searchInput" type="search" placeholder="상품명, 카테고리, 키워드"></label><select id="sortSelect"><option value="score">Score</option><option value="profit">Profit</option><option value="trend">Trend</option></select></div><div class="filter-row"><button class="active" type="button" data-category="all">All</button><button type="button" data-category="Fashion">Fashion</button><button type="button" data-category="Pet">Pet</button><button type="button" data-category="Home">Home</button><button type="button" data-category="Beauty">Beauty</button><button type="button" data-category="Tech">Tech</button></div></section><section class="summary"><div><strong id="totalCount">20</strong><span>Total Products</span></div><div><strong>11</strong><span>Video Sources</span></div><div><strong>84</strong><span>Avg. Score</span></div></section><div class="list-head"><h2>Product List</h2><span id="visibleCount">20 products</span></div><div id="productList" class="product-list"></div></section>
-<section id="community" class="view is-hidden" data-view="community"><div class="section-head"><p class="sub">Member community</p><h2>커뮤니티</h2><p>프로필을 설정하고 글, 댓글, 좋아요를 남길 수 있습니다. 공개 베타 미리보기는 브라우저 저장 기반으로 동작합니다.</p></div><div class="level"><span>Level Up</span><strong id="levelTitle">Starter</strong><p>커뮤니티 활동량에 따라 레벨이 상승됩니다.</p><div class="progress"><i id="levelBar"></i></div></div><section id="userPanel" class="login-card"><div class="mini-head"><h3>내 프로필</h3><span>Beta</span></div><button id="editProfileButton" class="profile-summary" type="button"><span id="currentUserAvatar" class="avatar">B</span><span><strong id="currentUserName">Beta Member</strong><p id="currentUserBio">프로필을 설정해보세요.</p></span></button></section><section id="composer" class="composer"><div class="mini-head"><h3>글쓰기</h3><span>Open</span></div><div class="form-grid"><label><span>제목</span><input id="postTitle" maxlength="60" placeholder="공유할 내용을 적어보세요"></label><label><span>본문</span><textarea id="postBody" maxlength="500" placeholder="제품 소스, 판매 인증, 질문을 남겨보세요."></textarea></label><div class="form-actions"><button class="primary-btn" type="button" id="postSubmit">게시하기</button><span class="status" id="writerStatus">베타 이용자는 바로 글을 쓸 수 있습니다.</span></div></div></section><div class="community-grid"><section class="panel"><div class="sort-tabs" aria-label="게시물 정렬"><button class="active" type="button" data-community-sort="popular">인기순</button><button type="button" data-community-sort="latest">최신순</button></div><div class="mini-head"><h3 id="feedTitle">인기순 게시물</h3><span id="postCount">Demo</span></div><div id="communityFeed"></div></section><aside class="panel"><div class="mini-head"><h3>Level Missions</h3><span>+XP</span></div><p>게시물 작성, 좋아요 받기, 댓글 작성, 답글 참여에 따라 XP가 쌓입니다.</p><div class="notice">여러 사람이 같은 게시글을 동시에 보려면 GitHub Pages가 아니라 Node/Render 같은 서버 배포가 필요합니다. 이 페이지는 심사와 화면 검수용 공개 베타입니다.</div></aside></div></section>
-<section id="subscribe" class="view is-hidden" data-view="subscribe"><div class="section-head"><p class="sub">Payment</p><h2>결제</h2><p>월 29,800원 멤버십 주문서로 이동합니다.</p></div><article class="pricing"><div class="price"><span>TrendScope Membership</span><strong>29,800원<small>/월</small></strong></div><ul class="benefits"><li>제품 리스트 전체 열람</li><li>Instagram Reels 원본 소스 링크 제공</li><li>멤버 커뮤니티와 레벨 시스템</li><li>언제든 구독 해지 가능</li></ul><div class="pay-note"><strong>결제 연동</strong><br>토스페이먼츠 정기결제 심사용 빌링 등록창은 주문서 페이지에서 확인할 수 있습니다.</div><a class="pay-button" href="order.html">정기결제 카드 등록하기</a></article></section>
-</main><footer class="page company"><strong>퍼널컴퍼니</strong><span>대표자명: 김주혁</span><span>사업자등록번호: 524-55-00957</span><span>사업장 주소: 경기도 남양주시 별내중앙로 30, 2층 204-F255호(별내동)</span><span>유선번호: 010-6777-9782</span></footer>
-<div id="profileModal" class="modal is-hidden"><div class="modal-backdrop" data-close-profile></div><section class="modal-panel"><button class="modal-close" type="button" data-close-profile>×</button><p class="sub">Profile</p><h2>프로필</h2><div id="profileView"></div><form id="profileForm" class="profile-form is-hidden"><label class="image-picker"><input id="profileImageInput" type="file" accept="image/*">프사 선택</label><label><span>이름</span><input id="profileNameInput" maxlength="28" placeholder="이름"></label><label><span>자기소개</span><textarea id="profileBioInput" maxlength="180" placeholder="자기소개를 적어보세요."></textarea></label><button type="submit">프로필 저장</button></form></section></div>
-<script>
-const imageBase="https://raw.githubusercontent.com/juhyuk061210/-/codex/trendscope-dashboard/assets/products-square/";const sourceLinks=["https://www.instagram.com/stridesoft_/reels/","https://www.instagram.com/erika.ronning/reels/","https://www.instagram.com/shezzasocks/reels/","https://www.instagram.com/reels/DY2-0IKxAWp/","https://www.instagram.com/pawsipus/reels/","https://www.instagram.com/reels/DY54Vr-Tq5Z/","https://www.instagram.com/reels/DYu_-9qufAp/","https://www.instagram.com/reels/DVeZls5jxAe/","https://www.instagram.com/reels/DYJ-qa2K7e_"];const rows=[["Spin Sneaker","Fashion","Cushioned rotation sneaker concept with visual hook for comfort and daily-wear content."],["Handheld Massage Head Wrap","Beauty","Portable self-care massage product with easy demonstration and wellness angles."],["Satin Sockliner","Fashion","Comfort footwear insert positioned around softness, heel protection, and walking relief."],["CushionFlex Foot Cooling Tube","Beauty","Cooling foot-care product with clear relief story for summer and recovery content."],["Head Massage Therapy Device","Beauty","Relaxation device with strong visual transformation and pain-relief positioning."],["Smart Clay Cleaning Tool","Home","Reusable cleaning product for keyboards, vents, and small dust-prone spaces."],["Digital Sports Watch","Tech","Simple gadget product for fitness routines, steps, and daily performance content."],["Pet Easy Massage Brush","Pet","Pet grooming and massage item with warm owner-pet demo potential."],["Fan Cleaner","Home","Niche cleaning tool with satisfying before-after visuals for dusty home appliances."],["Soft Comfort Insoles","Fashion","Minimal footwear support item for long standing, commuting, and shoe-fit improvement."],["Cooling Gel Eye Pads","Beauty","Reusable gel pads for puffiness and relaxation with strong morning routine angles."],["Padded Socks","Fashion","Comfort sock product with visible cushioning story and everyday wear positioning."],["Magnetic Grip Holder","Tech","Compact phone accessory for hands-free viewing, grip, and quick mounting demos."],["2-in-1 Dog Water Bottle","Pet","Outdoor pet hydration item with travel-friendly benefit and easy demonstration."],["Heat Relief Wrap","Beauty","Body-care wrap for warmth and relief with pain-point driven short-form content."],["Minimal Fold Panel","Home","Simple home utility item suitable for desk, kitchen, and storage problem angles."],["Retractable Pet Leash","Pet","Pet walking accessory with safety, control, and convenience storylines."],["Smart Mini Projector","Tech","Entertainment gadget with strong room setup visuals and giftable positioning."],["Hanging Plant Pot","Home","Home decor product with personalization, indoor plant, and small-space angles."],["Wireless Smart Switch Set","Tech","Home automation accessory for renter-friendly smart room upgrades."]];const products=rows.map((item,index)=>{const score=94-Math.floor(index*1.7),trend=96-((index*7)%31),profit=88-((index*5)%34),competition=28+((index*6)%46);return{id:index+1,name:item[0],category:item[1],description:item[2],image:`${imageBase}product-${String(index+1).padStart(2,"0")}.webp`,source:sourceLinks[index%sourceLinks.length],score,trend,profit,competition,tags:[item[1],trend>82?"High Demand":"Steady Demand",profit>72?"Good Margin":"Test First"]}});const list=document.querySelector("#productList"),searchInput=document.querySelector("#searchInput"),sortSelect=document.querySelector("#sortSelect"),visibleCount=document.querySelector("#visibleCount"),totalCount=document.querySelector("#totalCount");let activeCategory="all";function esc(v){return String(v||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;")}function visibleProducts(){const q=searchInput.value.trim().toLowerCase();return[...products].filter(p=>activeCategory==="all"||p.category===activeCategory).filter(p=>!q||[p.name,p.category,p.description,...p.tags].join(" ").toLowerCase().includes(q)).sort((a,b)=>b[sortSelect.value]-a[sortSelect.value])}function metric(label,value,color=""){return`<div class="metric"><span>${label}</span><span class="bar ${color}"><span style="width:${value}%"></span></span><strong>${value}</strong></div>`}function renderProducts(){const items=visibleProducts();visibleCount.textContent=`${items.length} products`;totalCount.textContent=products.length;list.innerHTML=items.map((p,i)=>`<article class="card"><div class="thumb"><img src="${p.image}" alt="${esc(p.name)}" loading="lazy"><span class="rank">#${String(i+1).padStart(2,"0")}</span></div><div><div class="card-top"><h3 class="card-title">${esc(p.name)}</h3><span class="score">${p.score}</span></div><p class="desc">${esc(p.description)}</p><div class="pill-row">${p.tags.map(t=>`<span class="pill">${esc(t)}</span>`).join("")}</div>${metric("Trend",p.trend)}${metric("Profit",p.profit,"yellow")}${metric("Comp.",p.competition,"orange")}<div class="actions"><a class="primary" href="${p.source}" target="_blank" rel="noreferrer">Source</a><button type="button">Details</button></div></div></article>`).join("")}document.querySelectorAll("[data-category]").forEach(btn=>btn.addEventListener("click",()=>{document.querySelectorAll("[data-category]").forEach(i=>i.classList.remove("active"));btn.classList.add("active");activeCategory=btn.dataset.category;renderProducts()}));searchInput.addEventListener("input",renderProducts);sortSelect.addEventListener("change",renderProducts);renderProducts();
-const seedUsers={"seed-k":{id:"seed-k",name:"K",bio:"반려동물 제품과 짧은 시연 영상 소재를 주로 찾는 멤버입니다. 반응 좋은 소싱 아이디어를 커뮤니티에 공유합니다.",profileImage:""},"seed-h":{id:"seed-h",name:"H",bio:"소형 가전과 선물용 제품을 테스트하는 멤버입니다. 판매 실험 결과와 상세페이지 개선 포인트를 기록합니다.",profileImage:""}};function loadUser(){return JSON.parse(localStorage.getItem("ts_user")||"null")||{id:"local-beta",name:"Beta Member",bio:"프로필을 설정해보세요.",profileImage:""}}function saveUser(u){localStorage.setItem("ts_user",JSON.stringify(u))}let currentUser=loadUser();let communitySort=localStorage.getItem("ts_community_sort")||"popular";const seedPosts=[{id:"p1",authorId:"seed-k",title:"이번 주 반려동물 제품 소스 공유",message:"릴스 반응 좋은 강아지 물병 제품을 찾았습니다. 경쟁도는 낮고 시연 영상 만들기 쉬워요.",createdAt:Date.now()-180000,likedBy:[],comments:[{id:"c1",authorId:"local-beta",message:"와우!!!!",createdAt:Date.now()-60000}]},{id:"p2",authorId:"seed-h",title:"첫 판매 인증",message:"미니 프로젝터 제품으로 상세페이지 테스트 후 첫 주문 들어왔습니다.",createdAt:Date.now()-3600000,likedBy:["seed-k"],comments:[]},{id:"p3",authorId:"local-beta",title:"테스트 김주혁",message:"테스트 본문",createdAt:Date.now()-7200000,likedBy:[],comments:[]}];function posts(){return JSON.parse(localStorage.getItem("ts_posts")||"null")||seedPosts}function savePosts(v){localStorage.setItem("ts_posts",JSON.stringify(v))}function allUsers(){return {...seedUsers,[currentUser.id]:currentUser}}function user(id){return allUsers()[id]||{id,name:"Member",bio:"아직 자기소개가 없습니다.",profileImage:""}}function avatar(u,cls=""){return `<button class="avatar ${cls}" type="button" data-profile-id="${esc(u.id)}">${u.profileImage?`<img src="${u.profileImage}" alt="">`:esc((u.name||"M").slice(0,1).toUpperCase())}</button>`}function ago(t){const m=Math.floor((Date.now()-t)/60000);if(m<1)return"방금 전";if(m<60)return`${m}분 전`;const h=Math.floor(m/60);if(h<24)return`${h}시간 전`;return`${Math.floor(h/24)}일 전`}function postScore(p){return (p.likedBy||[]).length*3+(p.comments||[]).length*5}function sortPosts(list){return [...list].sort((a,b)=>communitySort==="latest"?b.createdAt-a.createdAt:postScore(b)-postScore(a)||b.createdAt-a.createdAt)}function xp(){const ps=posts();const mine=ps.filter(p=>p.authorId===currentUser.id);const comments=ps.flatMap(p=>p.comments||[]).filter(c=>c.authorId===currentUser.id);const likes=mine.reduce((a,p)=>a+(p.likedBy||[]).length,0);return mine.length*15+comments.length*8+likes*5}function renderLevel(){const v=xp();let tier="Starter",pct=Math.min(100,Math.round(v/40*100));if(v>=180){tier="Insider";pct=100}else if(v>=100){tier="Operator";pct=Math.min(100,Math.round((v-100)/80*100))}else if(v>=40){tier="Builder";pct=Math.min(100,Math.round((v-40)/60*100))}document.querySelector("#levelTitle").textContent=tier;document.querySelector("#levelBar").style.width=pct+"%"}function renderMe(){document.querySelector("#currentUserName").textContent=currentUser.name;document.querySelector("#currentUserBio").textContent=currentUser.bio||"프로필을 설정해보세요.";document.querySelector("#currentUserAvatar").innerHTML=currentUser.profileImage?`<img src="${currentUser.profileImage}" alt="">`:esc(currentUser.name.slice(0,1).toUpperCase())}function renderSortTabs(){document.querySelectorAll("[data-community-sort]").forEach(btn=>btn.classList.toggle("active",btn.dataset.communitySort===communitySort));document.querySelector("#feedTitle").textContent=communitySort==="latest"?"최신순 게시물":"인기순 게시물"}function renderCommunity(){const ps=sortPosts(posts());document.querySelector("#postCount").textContent=`${ps.length} posts`;document.querySelector("#communityFeed").innerHTML=ps.map(p=>{const au=user(p.authorId),liked=(p.likedBy||[]).includes(currentUser.id);return `<article class="post" data-post-id="${esc(p.id)}">${avatar(au)}<div><div class="post-meta"><strong>${esc(au.name)}</strong><span>${ago(p.createdAt)}</span></div><h4>${esc(p.title)}</h4><p>${esc(p.message)}</p><div class="post-actions"><button class="${liked?"liked":""}" type="button" data-like="${esc(p.id)}">${liked?"좋아요 완료":"좋아요"} ${(p.likedBy||[]).length}</button><button type="button" data-comment-toggle="${esc(p.id)}">댓글 ${(p.comments||[]).length}</button></div><div class="comment-box">${(p.comments||[]).map(c=>{const cu=user(c.authorId);return `<div class="comment">${avatar(cu)}<div><strong>${esc(cu.name)}</strong><p>${esc(c.message)}</p><span class="status">${ago(c.createdAt)}</span></div></div>`}).join("")}<form class="comment-form" data-comment-form="${esc(p.id)}"><input name="message" placeholder="댓글을 남겨보세요"><button class="primary-btn" type="submit">Reply</button></form></div></div></article>`}).join("");renderSortTabs();renderMe();renderLevel()}document.querySelectorAll("[data-community-sort]").forEach(btn=>btn.addEventListener("click",()=>{communitySort=btn.dataset.communitySort||"popular";localStorage.setItem("ts_community_sort",communitySort);renderCommunity()}));document.querySelector("#postSubmit").addEventListener("click",()=>{const title=document.querySelector("#postTitle").value.trim(),body=document.querySelector("#postBody").value.trim();if(!title||!body){document.querySelector("#writerStatus").textContent="제목과 본문을 입력해주세요.";return}const ps=posts();ps.unshift({id:`p-${Date.now()}`,authorId:currentUser.id,title,message:body,createdAt:Date.now(),likedBy:[],comments:[]});savePosts(ps);document.querySelector("#postTitle").value="";document.querySelector("#postBody").value="";document.querySelector("#writerStatus").textContent="게시 완료";communitySort="latest";localStorage.setItem("ts_community_sort",communitySort);renderCommunity()});document.querySelector("#communityFeed").addEventListener("click",e=>{const prof=e.target.closest("[data-profile-id]");if(prof){openProfile(prof.dataset.profileId);return}const like=e.target.closest("[data-like]");if(like){const ps=posts();const p=ps.find(x=>x.id===like.dataset.like);p.likedBy=p.likedBy||[];p.likedBy=p.likedBy.includes(currentUser.id)?p.likedBy.filter(id=>id!==currentUser.id):[...p.likedBy,currentUser.id];savePosts(ps);renderCommunity()}});document.querySelector("#communityFeed").addEventListener("submit",e=>{const form=e.target.closest("[data-comment-form]");if(!form)return;e.preventDefault();const msg=form.elements.message.value.trim();if(!msg)return;const ps=posts();const p=ps.find(x=>x.id===form.dataset.commentForm);p.comments=p.comments||[];p.comments.push({id:`c-${Date.now()}`,authorId:currentUser.id,message:msg,createdAt:Date.now()});savePosts(ps);renderCommunity()});
-const profileModal=document.querySelector("#profileModal"),profileView=document.querySelector("#profileView"),profileForm=document.querySelector("#profileForm"),profileName=document.querySelector("#profileNameInput"),profileBio=document.querySelector("#profileBioInput"),profileImage=document.querySelector("#profileImageInput");let profileImageData="";function openProfile(id){const u=user(id),editable=id===currentUser.id;profileForm.classList.toggle("is-hidden",!editable);profileForm.dataset.editable=editable?"true":"false";profileImageData=u.profileImage||"";const userPosts=posts().filter(p=>p.authorId===id),userComments=posts().flatMap(p=>(p.comments||[]).map(c=>({...c,postTitle:p.title}))).filter(c=>c.authorId===id);profileView.innerHTML=`<div class="profile-card">${avatar(u,"large").replace("data-profile-id",editable?"data-profile-avatar-picker data-profile-id":"data-profile-id")}<div><strong>${esc(u.name)}</strong><span>${editable?"내 프로필":"member"} · ${id==="local-beta"?"paid":"free"}</span><p>${esc(u.bio||"아직 자기소개가 없습니다.")}</p></div></div><div class="profile-tabs"><button class="active" type="button" data-tab="posts">게시물 ${userPosts.length}</button><button type="button" data-tab="comments">댓글 ${userComments.length}</button></div><div data-panel="posts">${userPosts.length?userPosts.map(p=>`<div class="profile-activity-card"><strong>${esc(p.title)}</strong><p>${esc(p.message)}</p><span class="status">좋아요 ${(p.likedBy||[]).length} · 댓글 ${(p.comments||[]).length}</span></div>`).join(""):`<div class="profile-empty">아직 작성한 게시물이 없습니다.</div>`}</div><div class="is-hidden" data-panel="comments">${userComments.length?userComments.map(c=>`<div class="profile-activity-card"><strong>${esc(c.postTitle)}</strong><p>${esc(c.message)}</p></div>`).join(""):`<div class="profile-empty">아직 작성한 댓글이 없습니다.</div>`}</div>`;if(editable){profileName.value=u.name;profileBio.value=u.bio||""}profileModal.classList.remove("is-hidden")}document.querySelector("#editProfileButton").addEventListener("click",()=>openProfile(currentUser.id));profileView.addEventListener("click",e=>{if(e.target.closest("[data-profile-avatar-picker]")&&profileForm.dataset.editable==="true"){profileImage.click();return}const tab=e.target.closest("[data-tab]");if(!tab)return;profileView.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b===tab));profileView.querySelectorAll("[data-panel]").forEach(p=>p.classList.toggle("is-hidden",p.dataset.panel!==tab.dataset.tab))});profileImage.addEventListener("change",()=>{const file=profileImage.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{profileImageData=String(r.result||"");const av=profileView.querySelector("[data-profile-avatar-picker]");if(av)av.innerHTML=`<img src="${profileImageData}" alt="">`};r.readAsDataURL(file)});profileForm.addEventListener("submit",e=>{e.preventDefault();currentUser={...currentUser,name:profileName.value.trim()||currentUser.name,bio:profileBio.value.trim(),profileImage:profileImageData};saveUser(currentUser);openProfile(currentUser.id);renderCommunity()});document.querySelectorAll("[data-close-profile]").forEach(b=>b.addEventListener("click",()=>profileModal.classList.add("is-hidden")));renderCommunity();
-const links=document.querySelectorAll("[data-view-link]"),views=document.querySelectorAll("[data-view]");function setView(view){const selected=["products","community","subscribe"].includes(view)?view:"products";views.forEach(s=>s.classList.toggle("is-hidden",s.dataset.view!==selected));links.forEach(l=>l.classList.toggle("active",l.dataset.viewLink===selected));document.title=selected==="community"?"TrendScope | 커뮤니티":selected==="subscribe"?"TrendScope | 결제":"TrendScope | 상위 상품들"}function currentView(){return location.hash.replace("#","")||"products"}window.addEventListener("hashchange",()=>setView(currentView()));setView(currentView());
-</script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TrendScope | Trending Products</title>
+    <meta name="description" content="트렌딩 제품 리스트와 멤버 커뮤니티" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="top-nav">
+      <div class="nav-inner">
+        <a class="brand" href="#products">TrendScope</a>
+        <nav aria-label="주요 메뉴">
+          <a class="active" href="#products" data-view-link="products">Trending Products</a>
+          <a href="#community" data-view-link="community">Community</a>
+          <a href="#subscribe" data-view-link="subscribe">Subscribe</a>
+        </nav>
+        <button class="login" id="openLoginModal" type="button">JOIN</button>
+      </div>
+    </header>
+
+    <main id="top" class="page">
+      <section class="hero" data-view="products">
+        <p class="sub">Only researched products</p>
+        <h1>Trending Products</h1>
+        <p class="lead">워드파일 제품 리스트를 기반으로 정리한 트렌딩 상품 데이터베이스입니다.</p>
+      </section>
+
+      <section class="control-card" aria-label="검색 및 필터" data-view="products">
+        <div class="search-row">
+          <label>
+            <span>Search Product</span>
+            <input id="searchInput" type="search" placeholder="상품명, 카테고리, 키워드" />
+          </label>
+          <select id="sortSelect" aria-label="정렬">
+            <option value="score">Score</option>
+            <option value="profit">Profit</option>
+            <option value="trend">Trend</option>
+          </select>
+        </div>
+        <div class="filter-row">
+          <button class="active" type="button" data-category="all">All</button>
+          <button type="button" data-category="Fashion">Fashion</button>
+          <button type="button" data-category="Pet">Pet</button>
+          <button type="button" data-category="Home">Home</button>
+          <button type="button" data-category="Beauty">Beauty</button>
+          <button type="button" data-category="Tech">Tech</button>
+          <button type="button" data-category="Outdoor">Outdoor</button>
+        </div>
+      </section>
+
+      <section class="summary-strip" aria-label="데이터 요약" data-view="products">
+        <div><strong id="totalCount">20</strong><span>Total Products</span></div>
+        <div><strong>3</strong><span>Verified Sources</span></div>
+        <div><strong>84</strong><span>Avg. Score</span></div>
+      </section>
+
+      <section id="products" class="list-wrap" data-view="products">
+        <div class="list-head">
+          <h2>Product List</h2>
+          <span id="visibleCount">20 products</span>
+        </div>
+        <div id="productList" class="product-list"></div>
+      </section>
+
+      <section id="community" class="community-section is-hidden" aria-label="멤버 커뮤니티" data-view="community">
+        <div class="community-head">
+          <p class="sub">Member community</p>
+          <h2>멤버들이 제품 소스와 판매 테스트를 공유하는 공간</h2>
+          <p>글을 작성하면 서버에 저장되고 다른 멤버 화면에도 표시되는 실제 커뮤니티 MVP입니다.</p>
+        </div>
+
+        <div class="tier-card">
+          <div class="tier-current">
+            <span id="tierBadge" class="tier-badge">Builder</span>
+            <strong>LEVEL UP</strong>
+            <p>커뮤니티 활동량에 따라 레벨이 상승됩니다.</p>
+            <small id="tierScore" class="tier-score">0 XP</small>
+            <div class="tier-progress" aria-label="레벨 진행률">
+              <span id="tierProgressBar" style="width: 0%"></span>
+            </div>
+          </div>
+          <div class="tier-grid">
+            <article data-tier="Starter"><span>0 XP</span><strong>Starter</strong><p>게시물 작성과 댓글 참여 시작</p></article>
+            <article class="active" data-tier="Builder"><span>40 XP</span><strong>Builder</strong><p>꾸준한 댓글, 질문, 제품 소스 공유</p></article>
+            <article data-tier="Operator"><span>100 XP</span><strong>Operator</strong><p>좋아요를 받는 게시물과 활발한 답글</p></article>
+            <article data-tier="Insider"><span>180 XP</span><strong>Insider</strong><p>커뮤니티에서 검증된 고활동 멤버</p></article>
+          </div>
+        </div>
+
+        <div class="community-grid">
+          <section class="feed-card">
+            <div class="mini-head">
+              <h3>Community</h3>
+              <span id="communityStatus">Live</span>
+            </div>
+            <div class="feed-tabs" aria-label="커뮤니티 정렬">
+              <button class="active" type="button" data-feed-sort="hot">Hot</button>
+              <button type="button" data-feed-sort="new">New</button>
+            </div>
+            <div id="authPanel" class="auth-panel">
+              <strong>로그인 후 커뮤니티에 참여할 수 있습니다.</strong>
+              <p>구글 또는 네이버 계정으로 로그인하면 게시글을 작성할 수 있습니다.</p>
+              <div class="auth-actions">
+                <a href="/api/auth/google/start">Google 로그인</a>
+                <a href="/api/auth/naver/start">Naver 로그인</a>
+              </div>
+            </div>
+            <div id="userPanel" class="auth-panel user-panel is-hidden">
+              <button id="editProfileButton" class="profile-summary" type="button">
+                <span id="currentUserAvatar" class="avatar small">A</span>
+                <span>
+                <strong id="currentUserName">Member</strong>
+                <p id="currentUserEmail">로그인됨</p>
+                </span>
+              </button>
+              <button id="logoutButton" type="button">Logout</button>
+            </div>
+            <form id="communityForm" class="community-form is-hidden">
+              <input id="communityTitle" maxlength="60" placeholder="제목" required />
+              <textarea id="communityMessage" maxlength="360" placeholder="제품 소스, 판매 인증, 질문을 남겨보세요." required></textarea>
+              <div id="postImagePreview" class="image-preview is-hidden"></div>
+              <label class="image-picker">
+                <input id="communityImage" type="file" accept="image/*" />
+                사진 추가
+              </label>
+              <button type="submit">Post</button>
+            </form>
+            <div id="communityFeed" class="community-feed"></div>
+          </section>
+
+          <aside class="mission-card skool-side">
+            <div class="mini-head"><h3>About</h3><span>Admin</span></div>
+            <p>좋아요와 댓글이 많이 달린 글은 Hot 게시물로 위에 올라갑니다.</p>
+            <div class="side-stat"><strong id="postCount">0</strong><span>Posts</span></div>
+            <div class="side-stat"><strong id="replyCount">0</strong><span>Comments</span></div>
+            <div class="side-rule"></div>
+            <label><input type="checkbox" checked /> 제품 소스 공유</label>
+            <label><input type="checkbox" checked /> 판매 테스트 인증</label>
+            <label><input type="checkbox" /> 우수 글 공지 고정 예정</label>
+          </aside>
+        </div>
+      </section>
+
+      <section id="subscribe" class="subscribe-section is-hidden" aria-label="월 결제 멤버십" data-view="subscribe">
+        <div class="subscribe-head">
+          <p class="sub">Monthly membership</p>
+          <h2>월 29,800원으로 트렌딩 제품 리스트와 커뮤니티 이용</h2>
+          <p>매달 업데이트되는 제품 후보, 원본 소스 링크, 커뮤니티 등급 시스템을 멤버십으로 제공합니다.</p>
+        </div>
+        <article class="pricing-card">
+          <div class="price-top"><span>TrendScope Membership</span><strong>29,800원<small>/월</small></strong></div>
+          <ul class="benefit-list">
+            <li>제품 리스트 전체 열람</li>
+            <li>Instagram Reels 원본 소스 링크 제공</li>
+            <li>트렌드, 수익성, 경쟁도 기준 필터링</li>
+            <li>멤버 커뮤니티와 등급 시스템</li>
+            <li>언제든 구독 해지 가능</li>
+          </ul>
+          <div class="payment-note"><strong>결제 연동 방식</strong><span>실제 운영 시 토스페이먼츠 정기결제 빌링키 방식으로 연결합니다.</span></div>
+          <div class="payment-widget" aria-label="토스페이먼츠 결제 위젯">
+            <div id="payment-method"></div>
+            <div id="agreement"></div>
+          </div>
+          <form class="signup-form" id="orderForm">
+            <label>이메일<input id="orderEmail" type="email" placeholder="you@example.com" autocomplete="email" /></label>
+            <label>이름<input id="orderName" type="text" maxlength="28" placeholder="김주혁" autocomplete="name" /></label>
+            <button id="paymentButton" type="submit">29,800원 결제하기</button>
+            <p id="paymentStatus">심사용 테스트 결제창입니다. 실제 승인 처리는 연결하지 않았습니다.</p>
+          </form>
+        </article>
+      </section>
+    </main>
+
+    <footer id="contact">
+      <div class="company-info">
+        <strong>퍼널컴퍼니</strong>
+        <span>대표자명: 김주혁</span>
+        <span>사업자등록번호: 524-55-00957</span>
+        <span>사업장 주소: 경기도 남양주시 별내중앙로 30, 2층 204-F255호(별내동)</span>
+        <span>유선번호: 010-6777-9782</span>
+      </div>
+      <a href="#subscribe" data-view-link="subscribe">Subscribe</a>
+    </footer>
+    <div id="loginModal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+      <div class="modal-backdrop" data-close-modal></div>
+      <section class="modal-panel">
+        <button class="modal-close" type="button" data-close-modal>×</button>
+        <p class="sub">Member login</p>
+        <h2 id="loginModalTitle">커뮤니티 로그인</h2>
+        <p>구글 또는 네이버 계정으로 로그인하면 커뮤니티에 참여할 수 있습니다. 지금 로컬 버전에서는 관리자 데모로 바로 참여할 수 있습니다.</p>
+        <div class="modal-actions">
+          <a href="/api/auth/google/start">Google로 계속하기</a>
+          <a href="/api/auth/naver/start">Naver로 계속하기</a>
+          <button id="demoAdminButton" type="button">관리자로 바로 입장</button>
+        </div>
+      </section>
+    </div>
+    <div id="profileModal" class="modal is-hidden" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+      <div class="modal-backdrop" data-close-profile></div>
+      <section class="modal-panel">
+        <button class="modal-close" type="button" data-close-profile>×</button>
+        <p class="sub">Profile</p>
+        <h2 id="profileModalTitle">프로필</h2>
+        <div id="profileView" class="profile-view"></div>
+        <form id="profileForm" class="profile-form is-hidden">
+          <label class="image-picker">
+            <input id="profileImageInput" type="file" accept="image/*" />
+            프사 선택
+          </label>
+          <label>이름<input id="profileNameInput" maxlength="28" placeholder="이름" /></label>
+          <label>자기소개<textarea id="profileBioInput" maxlength="180" placeholder="자기소개를 적어보세요."></textarea></label>
+          <button type="submit">프로필 저장</button>
+        </form>
+      </section>
+    </div>
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+    <script src="app.js"></script>
+  </body>
 </html>

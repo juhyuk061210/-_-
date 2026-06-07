@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>결제 실패 | TrendScope</title>
+    <title>구독 실패 | TrendScope</title>
     <style>
       body {
         margin: 0;
@@ -16,7 +16,7 @@
       }
 
       main {
-        width: min(420px, calc(100% - 32px));
+        width: min(460px, calc(100% - 32px));
         padding: 32px;
         border: 1px solid #dbe3ef;
         border-radius: 10px;
@@ -32,9 +32,14 @@
   </head>
   <body>
     <main>
-      <h1>결제 실패</h1>
-      <p>심사용 리다이렉트 페이지입니다. 결제창 취소 또는 실패 시 이곳으로 돌아옵니다.</p>
-      <a href="/#subscribe">주문서로 돌아가기</a>
+      <h1>구독 등록 실패</h1>
+      <p id="message">카드 등록이 취소되었거나 실패했습니다.</p>
+      <a href="./#subscribe">다시 시도하기</a>
     </main>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const message = params.get("message");
+      if (message) document.querySelector("#message").textContent = message;
+    </script>
   </body>
 </html>

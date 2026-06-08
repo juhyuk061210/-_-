@@ -13,6 +13,7 @@ const usersFile = path.join(dataDir, "users.json");
 const sessionsFile = path.join(dataDir, "sessions.json");
 const paymentsFile = path.join(dataDir, "payments.json");
 const sessionCookie = "trendscope_session";
+const testCheckoutAmount = Number(process.env.TOSS_TEST_CHECKOUT_AMOUNT || 15000);
 
 process.env.PORT = String(internalPort);
 process.env.HOST = internalHost;
@@ -43,8 +44,8 @@ function applyCors(req, res) {
   if (!origin || !allowedCorsOrigins().has(origin)) return;
   res.setHeader("Access-Control-Allow-Origin", origin);
   res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Methods", "GET,POST,OPTIONS");
-  res.setHeader("Access-Control-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Vary", "Origin");
 }
 
@@ -163,6 +164,23 @@ async function recordPaymentOrder(order) {
   await writeJson(paymentsFile, payments.slice(-1000));
 }
 
+async function recordTestPayment(payment, meta = {}) {
+  const payments = await readJson(paymentsFile, []);
+  payments.push({
+    id: crypto.randomUUID(),
+    provider: "tosspayments",
+    paymentKey: payment.paymentKey || "",
+    orderId: payment.orderId || meta.orderId || "",
+    userId: "",
+    amount: Number(payment.totalAmount || payment.amount || meta.amount || 0),
+    status: payment.status || "UNKNOWN",
+    reason: "test_checkout",
+    raw: payment,
+    createdAt: new Date().toISOString(),
+  });
+  await writeJson(paymentsFile, payments.slice(-1000));
+}
+
 async function setUserMembership(userId, membershipStatus) {
   const users = await readJson(usersFile, []);
   await writeJson(
@@ -206,11 +224,43 @@ async function confirmPayment(user, body) {
   return payment;
 }
 
+async function confirmTestCheckout(body) {
+  const amount = Number(body.amount);
+  if (!body.paymentKey || !body.orderId || !amount) {
+    const error = new Error("missing payment data");
+    error.status = 400;
+    throw error;
+  }
+  if (amount !== testCheckoutAmount) {
+    const error = new Error("invalid test checkout amount");
+    error.status = 400;
+    throw error;
+  }
+  const payment = await tossRequest("/v1/payments/confirm", {
+    paymentKey: String(body.paymentKey),
+    orderId: String(body.orderId),
+    amount,
+  });
+  await recordTestPayment(payment, { orderId: String(body.orderId), amount });
+  return payment;
+}
+
 async function handlePayments(req, res, url) {
   applyCors(req, res);
   if (req.method === "OPTIONS") {
     res.writeHead(204);
     res.end();
+    return;
+  }
+
+  if (url.pathname === "/confirm" && req.method === "POST") {
+    try {
+      const body = JSON.parse((await readBody(req)) || "{}");
+      const payment = await confirmTestCheckout(body);
+      sendJson(res, 200, { ok: true, payment });
+    } catch (error) {
+      sendJson(res, error.status || 502, { error: error.message, details: error.payload || null });
+    }
     return;
   }
 
@@ -295,7 +345,7 @@ function proxyToInternal(req, res) {
 const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, `http://${req.headers.host || `${externalHost}:${externalPort}`}`);
-    if (url.pathname.startsWith("/api/payments/")) {
+    if (url.pathname === "/confirm" || url.pathname.startsWith("/api/payments/")) {
       await handlePayments(req, res, url);
       return;
     }

@@ -42,6 +42,8 @@ services:
         sync: false
       - key: TOSS_SECRET_KEY
         sync: false
+      - key: TOSS_TEST_CHECKOUT_AMOUNT
+        value: "15000"
       - key: TOSS_WIDGET_VARIANT_KEY
         value: DEFAULT
       - key: TOSS_WIDGET_AGREEMENT_VARIANT_KEY

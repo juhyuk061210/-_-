@@ -159,7 +159,7 @@
             <li>멤버 커뮤니티와 등급 시스템</li>
             <li>언제든 구독 해지 가능</li>
           </ul>
-          <div class="payment-note"><strong>결제 연동 방식</strong><span>토스페이먼츠 자동결제 빌링키 방식으로 매월 29,800원이 결제됩니다.</span></div>
+          <div class="payment-note"><strong>결제 연동 방식</strong><span>토스페이먼츠 결제위젯으로 29,800원 멤버십 결제를 진행합니다.</span></div>
           <div class="payment-widget" aria-label="토스페이먼츠 결제 위젯">
             <div id="payment-method"></div>
             <div id="agreement"></div>
@@ -167,8 +167,8 @@
           <form class="signup-form" id="orderForm">
             <label>이메일<input id="orderEmail" type="email" placeholder="you@example.com" autocomplete="email" /></label>
             <label>이름<input id="orderName" type="text" maxlength="28" placeholder="김주혁" autocomplete="name" /></label>
-            <button id="paymentButton" type="submit">카드 등록하고 구독 시작</button>
-            <p id="paymentStatus">로그인 후 자동결제용 카드를 등록하면 첫 달 결제가 진행됩니다.</p>
+            <button id="paymentButton" type="submit">29,800원 결제하기</button>
+            <p id="paymentStatus">로그인 후 결제수단을 선택하면 토스 결제창으로 이동합니다.</p>
           </form>
         </article>
       </section>
@@ -219,5 +219,6 @@
     <script src="https://js.tosspayments.com/v2/standard"></script>
     <script src="app.js"></script>
     <script src="community.js"></script>
+    <script src="payment-widget.js"></script>
   </body>
 </html>

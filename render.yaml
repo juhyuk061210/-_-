@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: starter
     buildCommand: npm install
-    startCommand: npm start
+    startCommand: node server-wrapper.js
     healthCheckPath: /api/health
     autoDeploy: true
     envVars:
@@ -38,6 +38,14 @@ services:
         sync: false
       - key: TOSS_BILLING_SECRET_KEY
         sync: false
+      - key: TOSS_CLIENT_KEY
+        sync: false
+      - key: TOSS_SECRET_KEY
+        sync: false
+      - key: TOSS_WIDGET_VARIANT_KEY
+        value: DEFAULT
+      - key: TOSS_WIDGET_AGREEMENT_VARIANT_KEY
+        value: AGREEMENT
       - key: BILLING_CRON_SECRET
         sync: false
       - key: MEMBERSHIP_AMOUNT

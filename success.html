@@ -1,78 +1,84 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Payment Processing | TrendScope</title>
-    <meta name="trendscope-api-base" content="https://trendscope-community.onrender.com" />
-    <style>
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        font-family: Arial, "Noto Sans KR", sans-serif;
-        background: #f8fafc;
-        color: #111827;
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>결제 성공</title>
+  <meta name="trendscope-api-base" content="https://trendscope-community.onrender.com" />
+  <style>
+    body {
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      text-align: center;
+      padding: 50px 16px;
+      background: #f8fafc;
+      color: #111827;
+    }
+
+    .box {
+      border: 1px solid #ddd;
+      padding: 30px;
+      display: inline-block;
+      border-radius: 8px;
+      background: #fff;
+      max-width: 460px;
+    }
+
+    #confirm-status {
+      color: #666;
+      font-size: 14px;
+    }
+
+    a {
+      color: #0077ff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>결제가 성공적으로 완료되었습니다!</h2>
+    <p>주문해주셔서 감사합니다. TrendScope 멤버십 권한을 확인하고 있습니다.</p>
+    <hr>
+    <p><strong>주문 번호:</strong> <span id="order-id"></span></p>
+    <p><strong>결제 금액:</strong> <span id="amount"></span>원</p>
+    <p id="confirm-status">결제 승인 확인 중...</p>
+    <a href="./#subscribe">TrendScope로 돌아가기</a>
+  </div>
+
+  <script>
+    const apiBase = document.querySelector('meta[name="trendscope-api-base"]').content.replace(/\/+$/, "");
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get("orderId");
+    const paymentKey = urlParams.get("paymentKey");
+    const amount = urlParams.get("amount");
+    const status = document.getElementById("confirm-status");
+
+    document.getElementById("order-id").textContent = orderId || "-";
+    document.getElementById("amount").textContent = Number(amount || 0).toLocaleString();
+
+    async function confirmPayment() {
+      if (!paymentKey || !orderId || !amount) {
+        status.textContent = "토스 결제 승인 정보가 부족합니다.";
+        return;
       }
 
-      main {
-        width: min(460px, calc(100% - 32px));
-        padding: 32px;
-        border: 1px solid #dbe3ef;
-        border-radius: 10px;
-        background: #fff;
-        text-align: center;
+      try {
+        const response = await fetch(`${apiBase}/api/payments/confirm`, {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ paymentKey, orderId, amount: Number(amount) }),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "결제 승인 확인에 실패했습니다.");
+        status.textContent = "멤버십 권한이 정상적으로 활성화되었습니다.";
+      } catch (error) {
+        status.textContent = error.message || "결제 승인 확인 중 오류가 발생했습니다.";
       }
+    }
 
-      a {
-        color: #2563eb;
-        font-weight: 800;
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1 id="title">Confirming payment</h1>
-      <p id="message">Please wait while TrendScope confirms your payment.</p>
-      <a href="./#subscribe">Back to TrendScope</a>
-    </main>
-    <script>
-      const apiBase = document.querySelector('meta[name="trendscope-api-base"]').content.replace(/\/+$/, "");
-      const params = new URLSearchParams(location.search);
-      const title = document.querySelector("#title");
-      const message = document.querySelector("#message");
-
-      async function confirmPayment() {
-        const paymentKey = params.get("paymentKey");
-        const orderId = params.get("orderId");
-        const amount = params.get("amount");
-
-        if (!paymentKey || !orderId || !amount) {
-          title.textContent = "Payment confirmation failed";
-          message.textContent = "Missing Toss Payments confirmation data.";
-          return;
-        }
-
-        try {
-          const response = await fetch(`${apiBase}/api/payments/confirm`, {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ paymentKey, orderId, amount: Number(amount) }),
-          });
-          const data = await response.json();
-          if (!response.ok) throw new Error(data.error || "Payment confirmation failed.");
-
-          title.textContent = "Payment complete";
-          message.textContent = "Your TrendScope membership is now active.";
-        } catch (error) {
-          title.textContent = "Payment confirmation failed";
-          message.textContent = error.message || "An error occurred while confirming payment.";
-        }
-      }
-
-      confirmPayment();
-    </script>
-  </body>
+    confirmPayment();
+  </script>
+</body>
 </html>

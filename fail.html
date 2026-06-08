@@ -1,45 +1,46 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Payment Failed | TrendScope</title>
-    <style>
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        font-family: Arial, "Noto Sans KR", sans-serif;
-        background: #f8fafc;
-        color: #111827;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>결제 실패</title>
+  <style>
+    body {
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      text-align: center;
+      padding: 50px 16px;
+      background: #f8fafc;
+      color: #111827;
+    }
 
-      main {
-        width: min(460px, calc(100% - 32px));
-        padding: 32px;
-        border: 1px solid #dbe3ef;
-        border-radius: 10px;
-        background: #fff;
-        text-align: center;
-      }
+    .box {
+      border: 1px solid #ffcccc;
+      padding: 30px;
+      display: inline-block;
+      border-radius: 8px;
+      background: #fff5f5;
+      max-width: 460px;
+    }
 
-      a {
-        color: #2563eb;
-        font-weight: 800;
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>Payment was not completed</h1>
-      <p id="message">The payment was canceled or failed.</p>
-      <a href="./#subscribe">Try again</a>
-    </main>
-    <script>
-      const params = new URLSearchParams(location.search);
-      const message = params.get("message");
-      if (message) document.querySelector("#message").textContent = message;
-    </script>
-  </body>
+    a {
+      text-decoration: none;
+      color: #0077ff;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>결제에 실패하였습니다.</h2>
+    <p id="error-message">이유를 알 수 없는 오류가 발생했습니다.</p>
+    <p style="color: #666;">에러 코드: <span id="error-code"></span></p>
+    <a href="./#subscribe">다시 결제하기</a>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    document.getElementById("error-message").textContent = urlParams.get("message") || "이유를 알 수 없는 오류가 발생했습니다.";
+    document.getElementById("error-code").textContent = urlParams.get("code") || "-";
+  </script>
+</body>
 </html>

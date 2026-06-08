@@ -27,6 +27,30 @@
     return Math.max(0, baseAmount() - (couponApplied() ? 5000 : 0));
   }
 
+  function ensurePolicyLinks() {
+    const footer = document.querySelector("footer");
+    if (!footer || document.querySelector(".footer-links")) return;
+
+    const links = document.createElement("div");
+    links.className = "footer-links";
+    links.setAttribute("aria-label", "정책 문서");
+    Object.assign(links.style, {
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "flex-end",
+      gap: "8px 14px",
+      width: "100%",
+      marginTop: "14px",
+      fontSize: "13px",
+    });
+    links.innerHTML = [
+      '<a href="terms.html">이용약관</a>',
+      '<a href="privacy.html">개인정보처리방침</a>',
+      '<a href="refund.html">환불정책</a>',
+    ].join("");
+    footer.appendChild(links);
+  }
+
   function ensureCouponRow() {
     if ($("#coupon-box")) return;
     const widget = $(".payment-widget");
@@ -173,6 +197,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", async () => {
+    ensurePolicyLinks();
     bind();
     await refreshUser();
     if (location.hash === "#subscribe") renderWidget().catch((error) => setStatus(error.message));

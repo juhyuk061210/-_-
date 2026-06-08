@@ -170,6 +170,7 @@
 
   async function submitPost(event) {
     event.preventDefault();
+    const form = event.currentTarget;
     if (!currentUser) {
       $("#loginModal")?.classList.remove("is-hidden");
       return;
@@ -187,7 +188,7 @@
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "게시글 작성에 실패했습니다.");
-      event.currentTarget.reset();
+      form?.reset();
       pendingImage = "";
       renderPreview("");
       await refreshFeed();

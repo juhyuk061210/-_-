@@ -3,6 +3,7 @@
   let paymentConfig = null;
   let widgets = null;
   let rendered = false;
+  let currentAmount = 29800;
 
   const $ = (selector) => document.querySelector(selector);
   const apiBase = () =>
@@ -13,6 +14,30 @@
       ""
     ).replace(/\/+$/, "");
   const apiUrl = (path) => `${apiBase()}${path}`;
+
+  function couponApplied() {
+    return Boolean($("#coupon-box")?.checked);
+  }
+
+  function baseAmount() {
+    return Number(paymentConfig?.amount || 29800);
+  }
+
+  function amountWithCoupon() {
+    return Math.max(0, baseAmount() - (couponApplied() ? 5000 : 0));
+  }
+
+  function ensureCouponRow() {
+    if ($("#coupon-box")) return;
+    const widget = $(".payment-widget");
+    const note = $(".payment-note");
+    if (!widget || !note) return;
+
+    const label = document.createElement("label");
+    label.className = "coupon-row";
+    label.innerHTML = '<input type="checkbox" id="coupon-box" /><span>5,000원 쿠폰 적용</span>';
+    widget.parentNode.insertBefore(label, widget);
+  }
 
   function setStatus(message) {
     const status = $("#paymentStatus");
@@ -57,9 +82,10 @@
     }
 
     widgets = TossPayments(config.clientKey).widgets({ customerKey: config.customerKey });
+    currentAmount = amountWithCoupon();
     await widgets.setAmount({
       currency: config.currency || "KRW",
-      value: Number(config.amount || 29800),
+      value: currentAmount,
     });
     await Promise.all([
       widgets.renderPaymentMethods({
@@ -74,6 +100,19 @@
 
     rendered = true;
     setStatus("Choose a payment method, then press the payment button.");
+  }
+
+  async function updateAmount() {
+    if (!paymentConfig) return;
+    currentAmount = amountWithCoupon();
+    if (widgets) {
+      await widgets.setAmount({
+        currency: paymentConfig.currency || "KRW",
+        value: currentAmount,
+      });
+    }
+    const button = $("#paymentButton");
+    if (button) button.textContent = `${currentAmount.toLocaleString("ko-KR")}원 결제하기`;
   }
 
   async function startPayment() {
@@ -91,7 +130,7 @@
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}),
+      body: JSON.stringify({ coupon: couponApplied() }),
     });
     const order = await orderResponse.json();
     if (!orderResponse.ok) throw new Error(order.error || "payment order failed");
@@ -109,6 +148,10 @@
   function bind() {
     const form = $("#orderForm");
     if (!form) return;
+    ensureCouponRow();
+    $("#coupon-box")?.addEventListener("change", () => {
+      updateAmount().catch((error) => setStatus(error.message || "Could not update amount."));
+    });
 
     form.addEventListener(
       "submit",

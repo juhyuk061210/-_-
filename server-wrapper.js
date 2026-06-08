@@ -43,8 +43,8 @@ function applyCors(req, res) {
   if (!origin || !allowedCorsOrigins().has(origin)) return;
   res.setHeader("Access-Control-Allow-Origin", origin);
   res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Headers", "Content-Type");
   res.setHeader("Vary", "Origin");
 }
 
@@ -172,17 +172,16 @@ async function setUserMembership(userId, membershipStatus) {
 }
 
 async function confirmPayment(user, body) {
-  const amount = Number(process.env.MEMBERSHIP_AMOUNT || 29800);
-  if (Number(body.amount) !== amount) {
-    const error = new Error("invalid payment amount");
-    error.status = 400;
-    throw error;
-  }
-
   const payments = await readJson(paymentsFile, []);
   const order = payments.find((item) => item.orderId === body.orderId && item.userId === user.id && item.status === "REQUESTED");
   if (!order) {
     const error = new Error("payment order not found");
+    error.status = 400;
+    throw error;
+  }
+  const amount = Number(order.amount);
+  if (Number(body.amount) !== amount) {
+    const error = new Error("invalid payment amount");
     error.status = 400;
     throw error;
   }
@@ -236,9 +235,14 @@ async function handlePayments(req, res, url) {
       sendJson(res, 401, { error: "login required" });
       return;
     }
+    const body = JSON.parse((await readBody(req)) || "{}");
+    const baseAmount = Number(process.env.MEMBERSHIP_AMOUNT || 29800);
+    const discountAmount = body.coupon ? 5000 : 0;
+    const amount = Math.max(0, baseAmount - discountAmount);
     const order = {
       orderId: paymentOrderId(),
-      amount: Number(process.env.MEMBERSHIP_AMOUNT || 29800),
+      amount,
+      discountAmount,
       currency: process.env.MEMBERSHIP_CURRENCY || "KRW",
       orderName: process.env.MEMBERSHIP_ORDER_NAME || "TrendScope Membership",
       customerKey: customerKey(user),

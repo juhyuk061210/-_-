@@ -60,6 +60,11 @@
   function renderAuth(user) {
     currentUser = user;
     const loggedIn = Boolean(user);
+    const topAuthButton = $("#openLoginModal");
+    if (topAuthButton) {
+      topAuthButton.textContent = loggedIn ? "로그아웃" : "로그인";
+      topAuthButton.dataset.authState = loggedIn ? "logged-in" : "logged-out";
+    }
     $("#authPanel")?.classList.toggle("is-hidden", loggedIn);
     $("#userPanel")?.classList.toggle("is-hidden", !loggedIn);
     $("#communityForm")?.classList.toggle("is-hidden", !loggedIn);

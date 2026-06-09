@@ -526,6 +526,7 @@ function startOAuth(provider, res) {
 
   if (provider === "google") {
     params.set("scope", "openid email profile");
+    params.set("prompt", "select_account");
     redirect(res, `https://accounts.google.com/o/oauth2/v2/auth?${params}`, { "Set-Cookie": stateCookie });
     return;
   }

@@ -2,6 +2,7 @@
   let currentUser = null;
   let activeSort = "hot";
   let pendingImage = "";
+  let profileImageData = "";
 
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -80,6 +81,68 @@
       renderAuth(data.authenticated ? data.user : null);
     } catch {
       renderAuth(null);
+    }
+  }
+
+  function closeProfile() {
+    $("#profileModal")?.classList.add("is-hidden");
+  }
+
+  function openMyProfile() {
+    if (!currentUser) {
+      $("#loginModal")?.classList.remove("is-hidden");
+      return;
+    }
+
+    profileImageData = currentUser.profileImage || "";
+    const profileView = $("#profileView");
+    const profileForm = $("#profileForm");
+    const nameInput = $("#profileNameInput");
+    const bioInput = $("#profileBioInput");
+
+    if (profileView) {
+      profileView.innerHTML = `
+        <div class="profile-card">
+          <button class="avatar large" type="button" data-profile-avatar-picker aria-label="프로필 사진 변경">
+            ${profileImageData ? `<img src="${escapeHtml(profileImageData)}" alt="" />` : escapeHtml((currentUser.name || currentUser.email || "M").slice(0, 1).toUpperCase())}
+          </button>
+          <div>
+            <strong>${escapeHtml(currentUser.name || "Member")}</strong>
+            <span>${escapeHtml(currentUser.email || "로그인됨")} · ${escapeHtml(currentUser.membershipStatus || "free")}</span>
+            <p>${escapeHtml(currentUser.bio || "아직 자기소개가 없습니다.")}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    if (nameInput) nameInput.value = currentUser.name || "";
+    if (bioInput) bioInput.value = currentUser.bio || "";
+    profileForm?.classList.remove("is-hidden");
+    $("#profileModal")?.classList.remove("is-hidden");
+  }
+
+  async function saveMyProfile(event) {
+    event.preventDefault();
+    if (!currentUser) return;
+
+    const name = $("#profileNameInput")?.value.trim() || currentUser.name || "Member";
+    const bio = $("#profileBioInput")?.value.trim() || "";
+
+    try {
+      const response = await fetch(apiUrl("/api/profile/me"), {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, bio, profileImage: profileImageData }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "프로필 저장에 실패했습니다.");
+      renderAuth(data.user);
+      await refreshAuth();
+      await refreshFeed();
+      closeProfile();
+    } catch (error) {
+      alert(error.message || "프로필 저장에 실패했습니다.");
     }
   }
 
@@ -236,6 +299,21 @@
   }
 
   function bind() {
+    $("#editProfileButton")?.addEventListener("click", openMyProfile);
+    $("#profileForm")?.addEventListener("submit", saveMyProfile);
+    $("#profileView")?.addEventListener("click", (event) => {
+      if (event.target.closest("[data-profile-avatar-picker]")) $("#profileImageInput")?.click();
+    });
+    $("#profileImageInput")?.addEventListener("change", async (event) => {
+      try {
+        profileImageData = await readImage(event.target.files?.[0]);
+        openMyProfile();
+      } catch (error) {
+        alert(error.message);
+        event.target.value = "";
+      }
+    });
+    $$("[data-close-profile]").forEach((button) => button.addEventListener("click", closeProfile));
     $("#communityForm")?.addEventListener("submit", submitPost);
     $("#communityImage")?.addEventListener("change", async (event) => {
       try {

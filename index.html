@@ -14,7 +14,7 @@
         <a class="brand" href="#products">TrendScope</a>
         <nav aria-label="주요 메뉴">
           <a class="active" href="#products" data-view-link="products">Trending Products</a>
-          <a href="#community" data-view-link="community">Community</a>
+          <a href="https://trendscope-community.onrender.com/#community">Community</a>
           <a href="#subscribe" data-view-link="subscribe">Subscribe</a>
         </nav>
         <button class="login" id="openLoginModal" type="button">JOIN</button>
@@ -116,7 +116,6 @@
                 <p id="currentUserEmail">로그인됨</p>
                 </span>
               </button>
-              <button id="logoutButton" type="button">Logout</button>
             </div>
             <form id="communityForm" class="community-form is-hidden">
               <input id="communityTitle" maxlength="60" placeholder="제목" required />
@@ -160,6 +159,10 @@
             <li>언제든 구독 해지 가능</li>
           </ul>
           <div class="payment-note"><strong>결제 연동 방식</strong><span>토스페이먼츠 결제위젯으로 29,800원 멤버십 결제를 진행합니다.</span></div>
+          <label class="coupon-row">
+            <input type="checkbox" id="coupon-box" />
+            <span>5,000원 쿠폰 적용</span>
+          </label>
           <div class="payment-widget" aria-label="토스페이먼츠 결제 위젯">
             <div id="payment-method"></div>
             <div id="agreement"></div>

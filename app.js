@@ -38,9 +38,21 @@ const products = [
   };
 });
 
+const communityAppUrl = "https://trendscope-community.onrender.com/#community";
 let activeCategory = "all";
 let currentUser = null;
 let billingConfig = null;
+let paymentWidgets = null;
+let paymentWidgetRendered = false;
+let activeFeedSort = "hot";
+let communityPosts = [];
+let pendingPostImage = "";
+
+function redirectGitHubCommunityToApp() {
+  if (location.hostname.endsWith("github.io") && location.hash === "#community") {
+    location.replace(communityAppUrl);
+  }
+}
 
 function apiBaseUrl() {
   const configured =
@@ -66,6 +78,49 @@ function $$(selector) {
 
 function escapeHtml(value) {
   return String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
+}
+
+function timeAgo(value) {
+  const timestamp = new Date(value).getTime();
+  if (!timestamp) return "";
+  const seconds = Math.max(1, Math.floor((Date.now() - timestamp) / 1000));
+  if (seconds < 60) return "방금 전";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}분 전`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}시간 전`;
+  const days = Math.floor(hours / 24);
+  return `${days}일 전`;
+}
+
+function readImageFile(file) {
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      resolve("");
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      reject(new Error("이미지 파일만 올릴 수 있습니다."));
+      return;
+    }
+    if (file.size > 2_000_000) {
+      reject(new Error("이미지는 2MB 이하만 올릴 수 있습니다."));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(new Error("이미지를 읽지 못했습니다."));
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderImagePreview(target, image, onClear) {
+  if (!target) return;
+  target.classList.toggle("is-hidden", !image);
+  target.innerHTML = image
+    ? `<img src="${escapeHtml(image)}" alt="" /><button type="button" aria-label="이미지 삭제">×</button>`
+    : "";
+  target.querySelector("button")?.addEventListener("click", onClear);
 }
 
 function metricRow(label, value, color = "") {
@@ -102,6 +157,201 @@ function renderProducts() {
   `).join("");
 }
 
+function renderLevel(level) {
+  if (!level) return;
+  const tierBadge = $("#tierBadge");
+  const tierScore = $("#tierScore");
+  const progressBar = $("#tierProgressBar");
+  if (tierBadge) tierBadge.textContent = level.tier || "Starter";
+  if (tierScore) {
+    const next = level.nextTier ? ` · 다음 ${level.nextTier} ${level.nextXp} XP` : "";
+    tierScore.textContent = `${level.xp || 0} XP${next}`;
+  }
+  if (progressBar) progressBar.style.width = `${Math.max(0, Math.min(100, Number(level.progress || 0)))}%`;
+  $$("[data-tier]").forEach((item) => item.classList.toggle("active", item.dataset.tier === level.tier));
+}
+
+async function loadCommunityLevel() {
+  if (!apiBaseUrl()) return;
+  try {
+    const response = await fetch(apiUrl("/api/community/level"), { credentials: "include" });
+    if (!response.ok) throw new Error("level failed");
+    renderLevel(await response.json());
+  } catch {
+    // Keep the static level UI if the server is temporarily unavailable.
+  }
+}
+
+function renderAvatar(name, image, size = "") {
+  const label = escapeHtml((name || "M").slice(0, 1).toUpperCase());
+  return `<span class="avatar ${size}">${image ? `<img src="${escapeHtml(image)}" alt="" />` : label}</span>`;
+}
+
+function renderComment(comment, postId) {
+  const isReply = Boolean(comment.parentId);
+  return `
+    <div class="comment ${isReply ? "reply" : ""}">
+      ${renderAvatar(comment.name, comment.profileImage, "small")}
+      <div>
+        <strong>${escapeHtml(comment.name || "Member")}</strong>
+        <span>${timeAgo(comment.createdAt)}</span>
+        <p>${escapeHtml(comment.message)}</p>
+        ${comment.image ? `<img class="attached-image" src="${escapeHtml(comment.image)}" alt="" />` : ""}
+        ${!isReply ? `<button class="reply-link" type="button" data-reply-to="${escapeHtml(comment.id)}" data-post-id="${escapeHtml(postId)}">답글</button>` : ""}
+      </div>
+    </div>
+  `;
+}
+
+function renderPost(post) {
+  const liked = currentUser && post.likedBy?.includes(currentUser.id);
+  const visibleComments = (post.comments || []).filter((comment) => comment.status !== "hidden" && comment.status !== "deleted");
+  return `
+    <article class="community-post" data-post-id="${escapeHtml(post.id)}">
+      <div class="post">
+        ${renderAvatar(post.name, post.profileImage)}
+        <div class="post-main">
+          <div class="post-meta">
+            <strong>${escapeHtml(post.name || "Member")}</strong>
+            <span>${timeAgo(post.createdAt)}</span>
+          </div>
+          <h4>${escapeHtml(post.title)}</h4>
+          <p>${escapeHtml(post.message)}</p>
+          ${post.image ? `<img class="attached-image" src="${escapeHtml(post.image)}" alt="" />` : ""}
+          <div class="post-actions">
+            <button class="${liked ? "liked" : ""}" type="button" data-like-post="${escapeHtml(post.id)}">좋아요 ${post.likes || 0}</button>
+            <button type="button" data-toggle-comments="${escapeHtml(post.id)}">댓글 ${visibleComments.length}</button>
+          </div>
+          <div class="comment-drawer" data-comments-for="${escapeHtml(post.id)}">
+            ${visibleComments.map((comment) => renderComment(comment, post.id)).join("") || `<p class="profile-empty">첫 댓글을 남겨보세요.</p>`}
+            <form class="comment-form" data-comment-form="${escapeHtml(post.id)}">
+              <input name="message" maxlength="260" placeholder="댓글을 입력하세요" required />
+              <button type="submit">댓글</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function renderCommunityFeed() {
+  const feed = $("#communityFeed");
+  if (!feed) return;
+  if (!communityPosts.length) {
+    feed.innerHTML = `<div class="profile-empty">아직 게시글이 없습니다. 첫 제품 소스를 공유해보세요.</div>`;
+  } else {
+    feed.innerHTML = communityPosts.map(renderPost).join("");
+  }
+
+  const postCount = $("#postCount");
+  const replyCount = $("#replyCount");
+  const comments = communityPosts.flatMap((post) => post.comments || []).filter((comment) => comment.status !== "hidden" && comment.status !== "deleted");
+  if (postCount) postCount.textContent = communityPosts.length;
+  if (replyCount) replyCount.textContent = comments.length;
+}
+
+async function loadCommunityFeed() {
+  if (!apiBaseUrl()) {
+    setAuthMessage("API 설정 필요");
+    return;
+  }
+  try {
+    setAuthMessage("Loading");
+    const response = await fetch(apiUrl(`/api/community?sort=${activeFeedSort}`), { credentials: "include" });
+    if (!response.ok) throw new Error("community feed failed");
+    communityPosts = await response.json();
+    renderCommunityFeed();
+    setAuthMessage("Live");
+  } catch {
+    setAuthMessage("Server offline");
+  }
+}
+
+async function submitCommunityPost(event) {
+  event.preventDefault();
+  if (!currentUser) {
+    openLogin();
+    return;
+  }
+
+  const title = $("#communityTitle")?.value.trim();
+  const message = $("#communityMessage")?.value.trim();
+  if (!title || !message) return;
+
+  const button = event.currentTarget.querySelector("button[type='submit']");
+  if (button) button.disabled = true;
+  setAuthMessage("Posting");
+
+  try {
+    const response = await fetch(apiUrl("/api/community"), {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, message, image: pendingPostImage }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "post failed");
+
+    event.currentTarget.reset();
+    pendingPostImage = "";
+    renderImagePreview($("#postImagePreview"), "", () => {});
+    await loadCommunityFeed();
+    await loadCommunityLevel();
+    setAuthMessage("Level updated");
+  } catch (error) {
+    alert(error.message || "게시글 작성에 실패했습니다.");
+    setAuthMessage("Live");
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+async function likeCommunityPost(postId) {
+  if (!currentUser) {
+    openLogin();
+    return;
+  }
+  try {
+    const response = await fetch(apiUrl(`/api/community/${encodeURIComponent(postId)}/like`), {
+      method: "POST",
+      credentials: "include",
+    });
+    if (!response.ok) throw new Error("like failed");
+    await loadCommunityFeed();
+    await loadCommunityLevel();
+  } catch {
+    alert("좋아요 처리에 실패했습니다.");
+  }
+}
+
+async function submitComment(event, postId, parentId = "") {
+  event.preventDefault();
+  if (!currentUser) {
+    openLogin();
+    return;
+  }
+  const form = event.target.closest("[data-comment-form]") || event.currentTarget;
+  const input = form.querySelector("input[name='message']");
+  const message = input?.value.trim();
+  if (!message) return;
+  try {
+    const response = await fetch(apiUrl(`/api/community/${encodeURIComponent(postId)}/comments`), {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, parentId }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "comment failed");
+    input.value = "";
+    await loadCommunityFeed();
+    await loadCommunityLevel();
+  } catch (error) {
+    alert(error.message || "댓글 작성에 실패했습니다.");
+  }
+}
+
 function setView(view) {
   const selected = ["products", "community", "subscribe"].includes(view) ? view : "products";
   $(".page")?.classList.toggle("wide-view", selected !== "products");
@@ -131,9 +381,17 @@ function setPaymentStatus(message) {
   if (status) status.textContent = message;
 }
 
+function renderTopAuthButton(isLoggedIn) {
+  const button = $("#openLoginModal");
+  if (!button) return;
+  button.textContent = isLoggedIn ? "로그아웃" : "로그인";
+  button.dataset.authState = isLoggedIn ? "logged-in" : "logged-out";
+}
+
 function renderAuthState(user) {
   currentUser = user;
   const isLoggedIn = Boolean(user);
+  renderTopAuthButton(isLoggedIn);
   $("#authPanel")?.classList.toggle("is-hidden", isLoggedIn);
   $("#userPanel")?.classList.toggle("is-hidden", !isLoggedIn);
   $("#communityForm")?.classList.toggle("is-hidden", !isLoggedIn);
@@ -220,6 +478,8 @@ async function loadAuthState() {
     if (data.authenticated) {
       loadBillingConfig().catch(() => setPaymentStatus("토스 결제 설정을 아직 불러오지 못했습니다."));
     }
+    await loadCommunityFeed();
+    await loadCommunityLevel();
   } catch {
     renderAuthState(null);
     setAuthMessage("Server offline");
@@ -235,6 +495,17 @@ function startOAuth(provider) {
   location.href = apiUrl(`/api/auth/${provider}/start`);
 }
 
+async function logoutCurrentUser() {
+  try {
+    await fetch(apiUrl("/api/auth/logout"), { method: "POST", credentials: "include" });
+  } finally {
+    renderAuthState(null);
+    setAuthMessage("Live");
+    await loadCommunityFeed();
+    await loadCommunityLevel();
+  }
+}
+
 $$("[data-category]").forEach((button) => {
   button.addEventListener("click", () => {
     $$("[data-category]").forEach((item) => item.classList.remove("active"));
@@ -246,10 +517,70 @@ $$("[data-category]").forEach((button) => {
 
 $("#searchInput")?.addEventListener("input", renderProducts);
 $("#sortSelect")?.addEventListener("change", renderProducts);
-$("#openLoginModal")?.addEventListener("click", openLogin);
+$("#openLoginModal")?.addEventListener("click", () => {
+  if (currentUser) {
+    logoutCurrentUser();
+    return;
+  }
+  openLogin();
+});
+$("#communityForm")?.addEventListener("submit", submitCommunityPost);
+$("#communityImage")?.addEventListener("change", async (event) => {
+  try {
+    pendingPostImage = await readImageFile(event.target.files?.[0]);
+    renderImagePreview($("#postImagePreview"), pendingPostImage, () => {
+      pendingPostImage = "";
+      event.target.value = "";
+      renderImagePreview($("#postImagePreview"), "", () => {});
+    });
+  } catch (error) {
+    alert(error.message);
+    event.target.value = "";
+  }
+});
+$$("[data-feed-sort]").forEach((button) => {
+  button.addEventListener("click", () => {
+    $$("[data-feed-sort]").forEach((item) => item.classList.remove("active"));
+    button.classList.add("active");
+    activeFeedSort = button.dataset.feedSort || "hot";
+    loadCommunityFeed();
+  });
+});
 $("#orderForm")?.addEventListener("submit", (event) => {
   event.preventDefault();
   startBillingAuth();
+});
+$("#communityFeed")?.addEventListener("click", (event) => {
+  const likeButton = event.target.closest("[data-like-post]");
+  if (likeButton) {
+    likeCommunityPost(likeButton.dataset.likePost);
+    return;
+  }
+
+  const commentsButton = event.target.closest("[data-toggle-comments]");
+  if (commentsButton) {
+    const drawer = $$("[data-comments-for]").find((item) => item.dataset.commentsFor === commentsButton.dataset.toggleComments);
+    drawer?.classList.toggle("open");
+    return;
+  }
+
+  const replyButton = event.target.closest("[data-reply-to]");
+  if (replyButton) {
+    const drawer = $$("[data-comments-for]").find((item) => item.dataset.commentsFor === replyButton.dataset.postId);
+    const input = drawer?.querySelector("input[name='message']");
+    if (input) {
+      input.value = `@${replyButton.closest(".comment")?.querySelector("strong")?.textContent || "reply"} `;
+      input.dataset.parentId = replyButton.dataset.replyTo;
+      input.focus();
+    }
+  }
+});
+$("#communityFeed")?.addEventListener("submit", (event) => {
+  const form = event.target.closest("[data-comment-form]");
+  if (!form) return;
+  const input = form.querySelector("input[name='message']");
+  submitComment(event, form.dataset.commentForm, input?.dataset.parentId || "");
+  if (input) input.dataset.parentId = "";
 });
 $$("[data-auth-provider]").forEach((link) => {
   link.addEventListener("click", (event) => {
@@ -270,16 +601,14 @@ $("#demoAdminButton")?.addEventListener("click", async () => {
   }
 });
 $("#logoutButton")?.addEventListener("click", async () => {
-  try {
-    await fetch(apiUrl("/api/auth/logout"), { method: "POST", credentials: "include" });
-  } finally {
-    renderAuthState(null);
-    setAuthMessage("Live");
-  }
+  await logoutCurrentUser();
 });
 $$("[data-close-modal]").forEach((button) => button.addEventListener("click", closeLogin));
 window.addEventListener("hashchange", () => setView(location.hash.replace("#", "")));
 
+redirectGitHubCommunityToApp();
 renderProducts();
 setView(location.hash.replace("#", ""));
 loadAuthState();
+loadCommunityFeed();
+loadCommunityLevel();

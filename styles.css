@@ -645,6 +645,22 @@ h1 {
   line-height: 1.5;
 }
 
+.coupon-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 18px 16px;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.coupon-row input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ink);
+}
+
 .payment-widget {
   display: grid;
   gap: 10px;
@@ -923,8 +939,7 @@ h1 {
   flex-wrap: wrap;
 }
 
-.auth-actions a,
-.user-panel button {
+.auth-actions a {
   min-height: 30px;
   display: inline-flex;
   align-items: center;
@@ -939,7 +954,7 @@ h1 {
 }
 
 .user-panel {
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
   align-items: center;
 }
 
@@ -951,22 +966,26 @@ h1 {
   border: 0;
   background: transparent;
   text-align: left;
-  padding: 0;
-}
-
-.user-panel button {
-  border-color: #d7ddea;
-  background: #fff;
-  color: var(--blue);
+  padding: 4px;
+  cursor: pointer;
 }
 
 .user-panel .profile-summary {
-  min-height: 0;
+  border-color: #d7ddea;
+  background: #fff;
+  color: var(--black);
+}
+
+.user-panel .profile-summary {
+  min-height: 38px;
+  width: 100%;
   justify-content: start;
-  padding: 0;
-  border-color: transparent;
-  background: transparent;
-  color: inherit;
+  border-radius: 5px;
+}
+
+.user-panel .profile-summary:hover {
+  border-color: var(--blue);
+  background: #f3f7ff;
 }
 
 .post {
@@ -1210,6 +1229,11 @@ h1 {
   flex: 0 0 auto;
 }
 
+button.avatar {
+  padding: 0;
+  cursor: pointer;
+}
+
 .avatar img {
   width: 100%;
   height: 100%;
@@ -1397,7 +1421,12 @@ h1 {
 }
 
 .profile-card .avatar.large {
-  cursor: default;
+  cursor: pointer;
+}
+
+.profile-card .avatar.large:hover {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
 }
 
 .profile-tabs {

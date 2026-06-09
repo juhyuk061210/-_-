@@ -93,13 +93,15 @@
     $("#profileModal")?.classList.add("is-hidden");
   }
 
-  function openMyProfile() {
+  function openMyProfile(options = {}) {
     if (!currentUser) {
       $("#loginModal")?.classList.remove("is-hidden");
       return;
     }
 
-    profileImageData = currentUser.profileImage || "";
+    if (!options.keepPendingImage) {
+      profileImageData = currentUser.profileImage || "";
+    }
     const profileView = $("#profileView");
     const profileForm = $("#profileForm");
     const nameInput = $("#profileNameInput");
@@ -115,6 +117,7 @@
             <strong>${escapeHtml(currentUser.name || "Member")}</strong>
             <span>${escapeHtml(currentUser.email || "로그인됨")} · ${escapeHtml(currentUser.membershipStatus || "free")}</span>
             <p>${escapeHtml(currentUser.bio || "아직 자기소개가 없습니다.")}</p>
+            <button class="profile-photo-button" type="button" data-profile-avatar-picker>프사 변경</button>
           </div>
         </div>
       `;
@@ -312,7 +315,7 @@
     $("#profileImageInput")?.addEventListener("change", async (event) => {
       try {
         profileImageData = await readImage(event.target.files?.[0]);
-        openMyProfile();
+        openMyProfile({ keepPendingImage: true });
       } catch (error) {
         alert(error.message);
         event.target.value = "";

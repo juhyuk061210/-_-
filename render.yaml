@@ -15,9 +15,9 @@ services:
       - key: BASE_URL
         value: https://trendscope-community.onrender.com
       - key: FRONTEND_URL
-        value: https://juhyuk061210.github.io/-_-/
+        value: https://trendscope-community.onrender.com/
       - key: CORS_ORIGINS
-        value: https://juhyuk061210.github.io
+        value: https://juhyuk061210.github.io,https://trendscope-community.onrender.com
       - key: SESSION_COOKIE_SAMESITE
         value: None
       - key: SESSION_COOKIE_SECURE
